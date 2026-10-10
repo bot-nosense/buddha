@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f0ebdf"><meta name="description" content="Đại điện 3D 200 m²: đi lại, nhìn quanh và chiêm ngưỡng tạo hình sơ bộ tượng Phật Thích Ca. Bản V1 chạy hoàn toàn trên trình duyệt.">
+<title>Đại điện — Một khoảng lặng · V1</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%23eee7d8'/%3E%3Cpath d='M24 34C12 33 8 25 9 16c9 1 15 8 15 18zm0 0c12-1 16-9 15-18-9 1-15 8-15 18zm0-5c-8-7-7-15 0-22 7 7 8 15 0 22z' fill='none' stroke='%23998153' stroke-width='2'/%3E%3C/svg%3E">
+<style>:root{--ink:#3a352c;--muted:#82786a;--gold:#9b7b48;--paper:#f5f1e8;--line:rgba(99,81,53,.15);--shadow:0 16px 60px rgba(61,45,20,.10);font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:var(--ink);font-size:14px;color-scheme:light}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#e8e1d4}body{overscroll-behavior:none}button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0;-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #8d733f;outline-offset:4px}button:disabled{cursor:wait;opacity:.55}button svg{pointer-events:none}svg{display:block}button:active{transform:translateY(1px)}[hidden]{display:none!important}
+#scene{display:block;position:fixed;inset:0;width:100%;height:100%;touch-action:none;outline:none}#topwash{position:fixed;inset:0 0 auto;height:170px;pointer-events:none;background:linear-gradient(180deg,rgba(242,238,229,.88),rgba(242,238,229,.3) 55%,transparent)}#bottomwash{position:fixed;inset:auto 0 0;height:150px;pointer-events:none;background:linear-gradient(0deg,rgba(43,36,25,.12),transparent)}
+.header{position:fixed;top:32px;left:36px;right:36px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;pointer-events:none}.brand{display:flex;gap:13px;align-items:center;pointer-events:auto}.brand-mark{width:46px;height:46px;border:1px solid rgba(112,90,53,.32);border-radius:50%;display:grid;place-items:center;background:rgba(248,245,238,.55)}.brand-mark svg{width:27px;height:27px;color:#8a6e43}.brand-title{font-family:Georgia,'Times New Roman',serif;font-size:26px;letter-spacing:-.55px;line-height:1.1}.brand-sub{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#7a715f;margin-top:6px}.header-tools{display:flex;gap:8px;pointer-events:auto}.icon-btn{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:rgba(248,245,239,.74);border:1px solid rgba(128,109,77,.2);backdrop-filter:blur(15px);transition:background .2s}.icon-btn:hover{background:#fffdf6}.icon-btn svg{width:18px;height:18px;stroke-width:1.5}.head-meta{position:absolute;left:50%;transform:translateX(-50%);top:9px;display:flex;align-items:center;gap:10px;font-size:10px;color:#7f745e;letter-spacing:1px}.head-meta .dot{width:3px;height:3px;border-radius:50%;background:#ad9977}.version{padding:4px 7px;border:1px solid rgba(140,113,71,.26);border-radius:4px;font-size:9px;letter-spacing:1.4px}
+.welcome{position:fixed;left:38px;bottom:132px;width:320px;padding:26px 28px 25px;background:rgba(248,245,237,.88);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:3px 22px 22px 22px;backdrop-filter:blur(20px);transition:opacity .25s,transform .25s}.eyebrow{font-size:9px;font-weight:600;letter-spacing:2.1px;text-transform:uppercase;color:#998258}.welcome h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;font-weight:400;line-height:1.12;letter-spacing:-1px;margin:15px 0 13px}.welcome h1 em{font-weight:400;color:#927444}.welcome p{color:#827767;font-size:12px;line-height:1.8;margin:0 0 22px}.primary{width:100%;padding:14px 15px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;background:#514632;color:#faf7ee;font-size:12px;box-shadow:0 4px 12px #67543220}.primary:hover{background:#675437}.primary svg{height:16px;width:16px}.welcome-foot{display:flex;align-items:center;justify-content:center;gap:5px;color:#998b74;font-size:9px;letter-spacing:.1px;margin-top:13px}.welcome-foot i{width:4px;height:4px;border-radius:50%;background:#ac9270}
+.dock{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;align-items:center;padding:7px;gap:2px;border-radius:15px;background:rgba(248,246,239,.92);border:1px solid rgba(255,255,255,.9);box-shadow:0 6px 40px rgba(44,35,18,.12);backdrop-filter:blur(22px);white-space:nowrap}.dock button{display:flex;gap:8px;align-items:center;justify-content:center;background:transparent;padding:11px 15px;border-radius:9px;font-size:11px;color:#746a58;min-height:40px}.dock button:hover{background:#eae3d6}.dock button.active{background:#e8e0d0;color:#4d422e}.dock svg{width:17px;height:17px;stroke-width:1.5}.dock .divider{width:1px;height:24px;background:#82725925;margin:0 4px}.dock .photo-label{font-size:8px;border:1px solid #9b8b7050;padding:2px 3px;border-radius:3px;line-height:1}.hint{position:fixed;bottom:104px;left:50%;transform:translateX(-50%);white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:10px;color:#6c614e;background:rgba(248,245,237,.84);padding:8px 13px;border:1px solid rgba(255,255,255,.7);border-radius:7px;backdrop-filter:blur(8px)}kbd{font-family:inherit;font-size:9px;border:1px solid #b4a78e88;border-radius:3px;padding:2px 4px;line-height:1;color:#6e624d;background:#fcfaf355}.hint b{font-weight:500;margin-right:5px}.crosshair{position:fixed;top:50%;left:50%;width:5px;height:5px;border:1px solid rgba(255,255,255,.9);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 1px rgba(66,48,24,.28);display:none}body.locked .crosshair{display:block}
+.map-wrap{position:fixed;right:36px;bottom:126px;width:162px;background:rgba(248,245,237,.78);border:1px solid rgba(255,255,255,.8);border-radius:13px;backdrop-filter:blur(14px);padding:13px 15px 11px;box-shadow:var(--shadow)}.map-head{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#93816a;letter-spacing:1.4px;text-transform:uppercase;cursor:pointer}.map-head button{width:20px;height:20px;background:transparent;color:#8c7b62;padding:3px}.map-head svg{width:13px;height:13px}.minimap{width:130px;height:155px;display:block;margin:3px auto 0}.map-footer{font-size:8px;text-align:center;letter-spacing:.7px;color:#91826b;margin-top:5px}.map-wrap.collapsed .minimap,.map-wrap.collapsed .map-footer{display:none}.map-wrap.collapsed{padding-bottom:13px}.status{position:fixed;bottom:31px;left:38px;color:#675d4c;font-size:9px;line-height:1.9;letter-spacing:.3px;max-width:190px}.status .status-top{display:flex;align-items:center;gap:7px;color:#63533a}.status .status-led{height:4px;width:4px;border-radius:50%;background:#99825c}.status .subtle{opacity:.66}.build-label{position:fixed;right:36px;bottom:36px;font-size:9px;color:#71634e;line-height:1.8;text-align:right}.build-label strong{font-weight:500;letter-spacing:.5px}.build-label span{opacity:.65;font-size:8px}
+.panel{position:fixed;right:36px;top:89px;width:334px;max-height:calc(100dvh - 190px);overflow:auto;border-radius:16px;background:rgba(249,246,239,.97);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow);backdrop-filter:blur(25px);padding:22px;z-index:10}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.panel-head h2{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:400;margin:0}.close{background:transparent;font-size:22px;color:#897b63;padding:0 3px;line-height:1}.field{margin-bottom:21px}.field:last-child{margin-bottom:0}.field-title{display:flex;justify-content:space-between;font-size:11px;margin:0 0 10px;font-weight:500}.field-title output{color:#948164;font-weight:400}.field small,.panel-note{display:block;color:#8d816d;font-size:10px;line-height:1.65;margin-top:8px}.segmented{display:flex;border-radius:8px;background:#e9e2d6;padding:3px;gap:2px}.segmented button{padding:9px 5px;flex:1;background:transparent;font-size:10px;border-radius:5px;color:#8a7b62}.segmented button.selected{background:#faf8f1;color:#615035;box-shadow:0 1px 5px #60431d15}.field select{width:100%;background:#f0eadd;color:#62553e;border:1px solid #cabea744;border-radius:7px;padding:9px}.field input[type=range]{width:100%;accent-color:#967849;height:3px;cursor:pointer}.field label.check{display:flex;align-items:center;gap:8px;color:#716249;font-size:11px;margin:11px 0}.field input[type=checkbox]{accent-color:#967849}.panel-note{border-top:1px solid var(--line);padding-top:13px}.info-copy{font-size:12px;line-height:1.85;color:#796d58}.info-copy p{margin:0 0 16px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.info-grid div{padding:12px;background:#eee8dc;border-radius:7px}.info-grid b{font-weight:500;color:#625038;font-size:14px;display:block;margin-bottom:4px}.info-grid span{font-size:9px;color:#948269}.keys-list{display:grid;grid-template-columns:105px 1fr;gap:11px;font-size:11px;color:#7c705a}.keys-list div{align-self:center}.keys-list kbd{font-size:10px}
+#toast{position:fixed;top:101px;left:50%;transform:translateX(-50%) translateY(-6px);padding:11px 18px;background:rgba(58,49,33,.93);color:#f8f2e4;font-size:11px;line-height:1.5;border-radius:8px;max-width:min(550px,calc(100% - 32px));opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;text-align:center}#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.splash{position:fixed;inset:0;background:#ece6da;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px}.splash-icon{height:44px;width:44px;color:#a68b5d;margin-bottom:22px}.splash h2{font-family:Georgia,serif;font-size:30px;font-weight:400;margin:0 0 10px;color:#625135}.splash p{font-size:12px;line-height:1.8;color:#918067;max-width:420px;margin:0}.loader-line{height:2px;width:100px;background:#c6b38d55;margin-top:24px;overflow:hidden}.loader-line:after{content:'';display:block;width:45%;height:100%;background:#9b8256;animation:loading 1.3s ease-in-out infinite}.reload{margin-top:20px;width:180px}.fade{position:fixed;inset:0;background:#ede7d8;opacity:0;pointer-events:none;transition:opacity .13s;z-index:20}.fade.on{opacity:1}.unhide{position:fixed;right:20px;top:20px;padding:8px 13px;border-radius:8px;background:#faf8efdd;color:#897453;font-size:10px;z-index:20;display:none}.ui-hidden .interface{visibility:hidden}.ui-hidden .unhide{display:block}.ui-hidden #topwash,.ui-hidden #bottomwash{display:none}.near-label{position:fixed;top:100px;left:36px;max-width:290px;background:#f7f2e6c9;border:1px solid #ffffff88;padding:13px 16px;border-radius:8px;font-size:11px;color:#7d6844;line-height:1.6;backdrop-filter:blur(10px);pointer-events:none}.near-label strong{display:block;font-weight:500}.near-label span{font-size:9px;color:#93846f}
+.touchpad{position:fixed;left:max(25px,env(safe-area-inset-left));bottom:128px;width:104px;height:104px;border:1px solid #fbf8ee88;background:#f6f0df30;backdrop-filter:blur(5px);border-radius:50%;touch-action:none;display:none;z-index:4}.touchpad:before,.touchpad:after{content:'';position:absolute;background:#ffffff66}.touchpad:before{width:1px;height:64px;left:51px;top:20px}.touchpad:after{width:64px;height:1px;top:51px;left:20px}.stick{position:absolute;left:32px;top:32px;width:38px;height:38px;border-radius:50%;background:#f8f4e8bd;border:1px solid #fff9;box-shadow:0 3px 12px #5d4c3220;pointer-events:none}.touch-label{position:absolute;bottom:-23px;width:100%;text-align:center;font-size:8px;letter-spacing:1px;color:#6e624f}.touch-look-hint{display:none;position:fixed;right:30px;bottom:165px;width:100px;text-align:center;font-size:9px;color:#7d705b;pointer-events:none;line-height:1.8;background:#f9f4e75e;padding:8px;border-radius:7px}.touch-controls .touchpad,.touch-controls .touch-look-hint{display:block}body:not(.started) .touchpad,body:not(.started) .touch-look-hint{display:none}
+@keyframes loading{from{transform:translateX(-100%)}to{transform:translateX(320%)}}
+@media(min-width:1600px){.welcome{bottom:148px;width:338px;padding:30px}.welcome h1{font-size:42px}.map-wrap{bottom:142px}}
+@media(max-width:1050px){.head-meta{display:none}.header{left:25px;right:25px;top:25px}.welcome{left:25px;width:290px;padding:24px;bottom:123px}.welcome h1{font-size:34px}.map-wrap{right:25px;width:145px;padding:11px 8px;bottom:125px}.map-head{padding:0 7px}.dock button{padding:11px 12px}.status{left:25px;bottom:20px}.build-label{right:25px;bottom:20px}.dock{bottom:28px}.hint{bottom:99px}.panel{right:25px;top:80px}}
+@media(max-width:720px){.header{top:max(18px,env(safe-area-inset-top));left:18px;right:18px}.brand-mark{width:36px;height:36px}.brand-mark svg{width:22px;height:22px}.brand{gap:9px}.brand-title{font-size:22px}.brand-sub{font-size:7px;letter-spacing:1.2px;margin-top:4px}.icon-btn{width:35px;height:35px}.header-tools{gap:5px}.header-tools button:nth-child(3){display:none}.header-tools svg{width:16px;height:16px}.welcome{left:18px;right:18px;bottom:115px;width:auto;max-width:320px;padding:22px}.welcome h1{font-size:33px;margin:11px 0}.welcome p{font-size:11px;margin-bottom:16px}.welcome-foot{margin-top:10px}.map-wrap{right:18px;bottom:111px;width:118px;padding:9px 5px}.minimap{width:105px;height:125px}.map-head{font-size:7px;letter-spacing:.8px}.map-footer{font-size:7px}.dock{bottom:max(22px,env(safe-area-inset-bottom));width:calc(100% - 28px);max-width:465px;justify-content:space-between;gap:0;padding:6px;border-radius:13px}.dock button{padding:8px 9px;font-size:9px;flex-direction:column;gap:5px;flex:1;min-width:0;min-height:47px}.dock button svg{width:18px;height:18px}.dock .divider{margin:0 2px}.dock .photo-label{display:none}.status{left:18px;bottom:4px;font-size:7px;line-height:1.5;max-width:none}.status .subtle{display:none}.build-label{right:18px;bottom:4px;font-size:7px}.build-label span{display:none}.hint{bottom:92px;font-size:9px;padding:6px 9px;gap:4px;max-width:calc(100vw - 24px);white-space:normal;text-align:center}.hint kbd{font-size:8px}.hint.desktop-hint{display:none}.panel{right:12px;left:12px;top:70px;width:auto;max-width:360px;margin-left:auto;max-height:calc(100dvh - 158px);padding:20px}.panel-head{margin-bottom:19px}.near-label{top:76px;left:18px;max-width:240px;font-size:10px;padding:9px 13px}.touch-controls .map-wrap{bottom:265px}.touch-controls .hint{display:none}.touchpad{bottom:136px}.touch-look-hint{bottom:158px}.eyebrow{font-size:8px;letter-spacing:1.4px}#toast{top:77px;font-size:10px}body:not(.started) .map-wrap{display:none}}
+@media(max-height:550px) and (orientation:landscape){.header{top:14px;left:18px;right:18px}.brand-title{font-size:20px}.brand-mark{width:34px;height:34px}.brand-sub{font-size:7px}.welcome{bottom:94px;padding:18px;width:270px;left:18px}.welcome h1{font-size:28px;margin:9px 0}.welcome p{font-size:10px;margin-bottom:11px}.welcome-foot{display:none}.welcome .primary{padding:11px}.map-wrap{bottom:94px;right:18px;width:114px;padding:9px 4px}.minimap{width:100px;height:117px}.map-footer{display:none}.dock{bottom:17px;width:auto;min-width:400px}.dock button{padding:8px 11px;flex-direction:row;min-height:34px}.hint{bottom:79px}.status{bottom:14px}.build-label{bottom:14px}.panel{top:64px;max-height:calc(100dvh - 130px)}.touch-controls .map-wrap{display:none}.touchpad{bottom:92px;width:92px;height:92px}.touchpad:before{left:45px;top:14px}.touchpad:after{left:14px;top:45px}.stick{left:26px;top:26px}.touch-look-hint{bottom:125px}.near-label{top:66px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}.loader-line:after{transform:none;width:100%}}
+
+.touch-controls .desktop-hint{display:none!important}
+@media(max-width:720px){.touch-controls .map-wrap.collapsed{bottom:105px;right:18px}}
+@media(max-height:550px) and (orientation:landscape){.status,.build-label{display:none}}
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="lotus" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 24C6 23 3 17 4 10c7 1 12 7 12 14Zm0 0c10-1 13-7 12-14-7 1-12 7-12 14Zm0-4c-6-5-6-11 0-17 6 6 6 12 0 17Z"/><path d="M5 27c7 3 15 3 22 0"/></g></symbol>
+<symbol id="settings" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2" fill="#f5f1e8"/><circle cx="16" cy="12" r="2" fill="#f5f1e8"/><circle cx="10" cy="18" r="2" fill="#f5f1e8"/></g></symbol>
+<symbol id="bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c1-1 1-2 1-5a5 5 0 0 1 10 0c0 3 0 4 1 5l1 2H5Z"/><path d="M10 21h4M12 3V2"/></g></symbol>
+<symbol id="full" viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v.1"/></g></symbol>
+<symbol id="walk" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="4" r="2"/><path d="m7 10 4-3 4 1 1 5 4 1M11 8l-1 7-4 6m5-7 4 3 1 4M7 10l-2 3"/></g></symbol>
+<symbol id="eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+<symbol id="back" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5 3 9l4 4M3 9h10a6 6 0 0 1 0 12M17 3l4 4-4 4"/></g></symbol>
+<symbol id="door" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V3h14v18M3 21h18M9 21V5l8-2v18"/><path d="M13 12v2"/></g></symbol>
+<symbol id="camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 1-2h6l1 2h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><circle cx="12" cy="12" r="4"/></g></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs></svg>
+<canvas id="scene" tabindex="0" aria-label="Đại điện 3D. Dùng WASD để di chuyển và kéo chuột để nhìn quanh. Có nút chuyển nhanh đến các vị trí ở dưới."></canvas>
+<div id="topwash"></div><div id="bottomwash"></div>
+<header class="header interface"><div class="brand"><div class="brand-mark"><svg><use href="#lotus"/></svg></div><div><div class="brand-title">Đại điện</div><div class="brand-sub">Không gian chiêm bái</div></div></div><div class="head-meta"><span>200 m²</span><i class="dot"></i><span>KHÔNG GIAN 3D</span><span class="version">V1.0</span></div><div class="header-tools"><button id="bellBtn" class="icon-btn" title="Thỉnh một tiếng chuông · B" aria-label="Thỉnh một tiếng chuông"><svg><use href="#bell"/></svg></button><button id="settingsBtn" class="icon-btn" title="Cài đặt hình ảnh" aria-label="Cài đặt hình ảnh" aria-expanded="false"><svg><use href="#settings"/></svg></button><button id="fullscreenBtn" class="icon-btn" title="Toàn màn hình" aria-label="Toàn màn hình"><svg><use href="#full"/></svg></button><button id="infoBtn" class="icon-btn" title="Thông tin và hướng dẫn" aria-label="Thông tin và hướng dẫn" aria-expanded="false"><svg><use href="#info"/></svg></button></div></header>
+<section id="welcome" class="welcome interface"><div class="eyebrow">Một nơi để chậm lại</div><h1>Bước vào<br><em>sự tĩnh lặng.</em></h1><p>Tự do đi lại trong đại điện.<br>Nhìn quanh và dừng lại trước tượng Phật.</p><button id="startBtn" class="primary"><span>Bắt đầu tham quan</span><svg><use href="#arrow"/></svg></button><div class="welcome-foot"><i></i> Góc nhìn thứ nhất &nbsp;·&nbsp; Không cần cài đặt</div></section>
+<div id="hint" class="hint desktop-hint interface" hidden><kbd>W A S D</kbd><b>di chuyển</b><span>· Kéo chuột để nhìn</span><span>·</span><kbd>Esc</kbd><span>thả chuột</span></div>
+<nav class="dock interface" aria-label="Điều hướng tham quan"><button id="walkBtn" class="active" title="Đi lại tự do"><svg><use href="#walk"/></svg><span>Tự do</span></button><button id="contemplateBtn" title="Đứng trước tượng Phật"><svg><use href="#eye"/></svg><span>Chiêm bái</span></button><button id="rearBtn" title="Đi tới lối phía sau tượng"><svg><use href="#back"/></svg><span>Vòng tượng</span></button><button id="homeBtn" title="Trở lại cửa vào · R"><svg><use href="#door"/></svg><span>Cửa vào</span></button><div class="divider"></div><button id="photoBtn" title="Lưu ảnh 3840 × 2160, không có giao diện · P"><svg><use href="#camera"/></svg><span>Chụp ảnh</span><span class="photo-label">4K</span></button></nav>
+<aside id="mapWrap" class="map-wrap interface"><div class="map-head" id="mapHead"><span>Mặt bằng</span><button id="mapToggle" aria-label="Thu gọn bản đồ" aria-expanded="true"><svg><use href="#minus"/></svg></button></div><canvas id="minimap" class="minimap" width="260" height="310" aria-label="Bản đồ vị trí trong đại điện"></canvas><div class="map-footer">12,5 × 16 m</div></aside>
+<div class="status interface"><div class="status-top"><span class="status-led"></span><span id="locationLabel">Lối vào đại điện</span></div><div class="subtle" id="resolutionLabel">Đang khởi tạo…</div></div><div class="build-label interface"><strong>Bản thử nghiệm không gian</strong><br><span>Tượng Phật: tạo hình sơ bộ</span></div>
+<div id="nearLabel" class="near-label interface" hidden><strong>Tượng Phật Thích Ca</strong><span>Mô hình sơ bộ · chưa phải bản điêu khắc hoàn thiện</span></div>
+<div class="crosshair"></div><div id="touchpad" class="touchpad interface" role="region" aria-label="Cần điều khiển di chuyển"><div id="stick" class="stick"></div><span class="touch-label">DI CHUYỂN</span></div><div class="touch-look-hint interface">Vuốt bên phải<br>để nhìn quanh</div>
+<section id="settingsPanel" class="panel interface" role="dialog" aria-label="Cài đặt hình ảnh" hidden><div class="panel-head"><h2>Hình ảnh</h2><button class="close" data-close aria-label="Đóng cài đặt">×</button></div><div class="field"><div class="field-title">Độ phân giải</div><div class="segmented" id="qualityGroup"><button data-quality="low">Nhẹ</button><button data-quality="balanced" class="selected">Cân bằng</button><button data-quality="sharp">Sắc nét</button><button data-quality="ultra">4K</button></div><small id="qualityDetail">Tự điều chỉnh theo kích thước cửa sổ.</small></div><div class="field"><label class="field-title" for="lightSelect">Ánh sáng</label><select id="lightSelect"><option value="day">Ban ngày · tự nhiên</option><option value="warm">Chiều ấm · dịu nhẹ</option></select></div><div class="field"><label class="field-title" for="fov"><span>Góc nhìn</span><output id="fovOut">62°</output></label><input type="range" id="fov" min="45" max="85" step="1" value="62"><small>Góc vừa phải giữ tỷ lệ không gian tự nhiên hơn.</small></div><div class="field"><label class="field-title" for="sensitivity"><span>Độ nhạy chuột / cảm ứng</span><output id="sensitivityOut">1,0×</output></label><input type="range" id="sensitivity" min="0.4" max="1.8" step="0.1" value="1"><label class="check"><input type="checkbox" id="shadowToggle" checked> Bóng đổ</label><label class="check"><input type="checkbox" id="touchToggle"> Hiện cần điều khiển cảm ứng</label></div><div class="panel-note">4K là độ phân giải khung hình, không phải cam kết mô hình hay vật liệu đã đạt độ chân thực như ảnh. Khi máy chậm, chọn “Cân bằng” hoặc “Nhẹ”.</div></section>
+<section id="infoPanel" class="panel interface" role="dialog" aria-label="Thông tin đại điện" hidden><div class="panel-head"><h2>Về đại điện</h2><button class="close" data-close aria-label="Đóng thông tin">×</button></div><div class="info-copy"><p>Một không gian 3D nhỏ, yên tĩnh. Không nhiệm vụ, không tính điểm. Bạn có thể đi phía trước, hai bên và vòng ra phía sau tượng.</p><div class="info-grid"><div><b>200 m²</b><span>Diện tích sàn</span></div><div><b>9 m</b><span>Chiều cao trần</span></div><div><b>6 × 5 m</b><span>Khu vực bệ tượng</span></div><div><b>1,65 m</b><span>Độ cao tầm mắt</span></div></div><p><strong>V1 là bản thử nghiệm bố cục.</strong> Tượng được dựng bằng hình học 3D đơn giản để kiểm tra tỷ lệ; chưa thay thế mô hình điêu khắc được kiểm duyệt về tạo hình.</p></div><div class="keys-list"><div><kbd>W A S D</kbd> / <kbd>↑ ↓ ← →</kbd></div><div>Di chuyển</div><div><kbd>Chuột</kbd></div><div>Kéo để nhìn; “Tự do” để khóa chuột</div><div><kbd>Esc</kbd></div><div>Thả chuột / đóng bảng</div><div><kbd>R</kbd> / <kbd>P</kbd></div><div>Về cửa / chụp ảnh 4K</div><div><kbd>H</kbd> / <kbd>B</kbd></div><div>Ẩn giao diện / tiếng chuông</div></div><div class="panel-note">Trên điện thoại: cần điều khiển bên trái để đi, vuốt bên phải để nhìn. Không leo lên bệ thờ. Không có dữ liệu được gửi ra ngoài; mọi nội dung nằm trong file này.</div></section>
+<div id="toast" role="status" aria-live="polite"></div><button class="unhide" id="unhideBtn">H · Hiện giao diện</button><div class="fade" id="fade"></div>
+<div id="splash" class="splash"><svg class="splash-icon"><use href="#lotus"/></svg><h2 id="splashTitle">Đang mở đại điện</h2><p id="splashMessage">Dựng không gian, vật liệu và ánh sáng…</p><div id="loaderLine" class="loader-line"></div><button id="reloadBtn" class="primary reload" hidden>Tải lại trang</button></div>
+<noscript><div class="splash"><h2>Cần bật JavaScript</h2><p>Bản tham quan 3D cần JavaScript và WebGL 2 để hoạt động.</p></div></noscript>
+<script>/* Dai Dien V1 — minimal, dependency-free WebGL2 renderer.
+   Units are metres. World axes: +Y up, +Z towards the entrance.
+   Static geometry is merged into a small number of indexed GPU batches. */
+'use strict';
+const G = (() => {
+  const V = {
+    add: (a,b) => a.map((x,i)=>x+b[i]), sub: (a,b)=>a.map((x,i)=>x-b[i]),
+    mul: (a,s)=>a.map(x=>x*s), dot: (a,b)=>a.reduce((s,x,i)=>s+x*b[i],0),
+    cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],
+    norm:a=>{const l=Math.hypot(...a)||1;return a.map(x=>x/l);},
+    mix:(a,b,t)=>a.map((x,i)=>x+(b[i]-x)*t),
+  };
+  const M = {
+    multiply(a,b){const r=new Float32Array(16);for(let c=0;c<4;c++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)r[c*4+row]+=a[k*4+row]*b[c*4+k];return r;},
+    perspective(fov,aspect,n,f){const t=1/Math.tan(fov/2);return new Float32Array([t/aspect,0,0,0,0,t,0,0,0,0,(f+n)/(n-f),-1,0,0,2*f*n/(n-f),0]);},
+    ortho(l,r,b,t,n,f){return new Float32Array([2/(r-l),0,0,0,0,2/(t-b),0,0,0,0,-2/(f-n),0,-(r+l)/(r-l),-(t+b)/(t-b),-(f+n)/(f-n),1]);},
+    lookAt(eye,target,up=[0,1,0]){const z=V.norm(V.sub(eye,target)),x=V.norm(V.cross(up,z)),y=V.cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-V.dot(x,eye),-V.dot(y,eye),-V.dot(z,eye),1]);}
+  };
+  const color = hex => [16,8,0].map(s => (((typeof hex==='string'?parseInt(hex.replace('#',''),16):hex)>>s)&255)/255);
+  const mat = (hex,rough=.65,metal=0,type=0,emission=0) => ({color:color(hex),params:[rough,metal,type,emission]});
+  const cube = (()=>{
+    const p=[],n=[],idx=[];
+    const faces=[[[1,0,0],[[.5,-.5,-.5],[.5,.5,-.5],[.5,.5,.5],[.5,-.5,.5]]],[[-1,0,0],[[-.5,-.5,.5],[-.5,.5,.5],[-.5,.5,-.5],[-.5,-.5,-.5]]],[[0,1,0],[[-.5,.5,-.5],[-.5,.5,.5],[.5,.5,.5],[.5,.5,-.5]]],[[0,-1,0],[[-.5,-.5,.5],[-.5,-.5,-.5],[.5,-.5,-.5],[.5,-.5,.5]]],[[0,0,1],[[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]]],[[0,0,-1],[[.5,-.5,-.5],[-.5,-.5,-.5],[-.5,.5,-.5],[.5,.5,-.5]]]];
+    for(const [nn,pp]of faces){let o=p.length/3;for(const v of pp){p.push(...v);n.push(...nn);}idx.push(o,o+1,o+2,o,o+2,o+3);}return {p,n,idx};
+  })();
+  function surface(nu,nv,fn,flip=false){
+    const p=[],n=[],idx=[];const eps=.00015;
+    for(let j=0;j<=nv;j++)for(let i=0;i<=nu;i++){
+      const u=i/nu,v=j/nv,a=fn(u,v),du=V.sub(fn(u+eps,v),fn(u-eps,v)),dv=V.sub(fn(u,v+eps),fn(u,v-eps));
+      p.push(...a);n.push(...V.mul(V.norm(V.cross(du,dv)),flip?-1:1));
+    }
+    for(let j=0;j<nv;j++)for(let i=0;i<nu;i++){let a=j*(nu+1)+i,b=a+nu+1;idx.push(a,b,a+1,b,b+1,a+1);}return {p,n,idx};
+  }
+  const sphereCache=new Map();
+  function sphere(seg=36,rings=24){
+    let key=seg+','+rings;if(sphereCache.has(key))return sphereCache.get(key);
+    const p=[],n=[],idx=[];
+    for(let j=0;j<=rings;j++)for(let i=0;i<=seg;i++){
+      const a=i/seg*Math.PI*2,b=j/rings*Math.PI;const nn=[Math.sin(b)*Math.cos(a),Math.cos(b),Math.sin(b)*Math.sin(a)];p.push(...nn);n.push(...nn);
+    }
+    for(let j=0;j<rings;j++)for(let i=0;i<seg;i++){let a=j*(seg+1)+i,b=a+seg+1;idx.push(a,b,a+1,b,b+1,a+1);}
+    const g={p,n,idx};sphereCache.set(key,g);return g;
+  }
+  function lathe(profile,seg=48){
+    const p=[],n=[],idx=[];
+    for(let j=0;j<profile.length;j++){
+      const prev=profile[Math.max(0,j-1)],next=profile[Math.min(profile.length-1,j+1)];const dr=next[0]-prev[0],dy=next[1]-prev[1];
+      for(let i=0;i<=seg;i++){let a=i/seg*Math.PI*2,c=Math.cos(a),s=Math.sin(a);p.push(profile[j][0]*c,profile[j][1],profile[j][0]*s);n.push(...V.norm([dy*c,-dr,dy*s]));}
+    }
+    for(let j=0;j<profile.length-1;j++)for(let i=0;i<seg;i++){let a=j*(seg+1)+i,b=a+seg+1;idx.push(a,a+1,b,a+1,b+1,b);}return {p,n,idx};
+  }
+  function cylinder(rt,rb,h,seg=40){return lathe([[0,-h/2],[rb,-h/2],[rb,-h/2+.001],[rt,h/2-.001],[rt,h/2],[0,h/2]],seg);}
+  function torus(R,r,seg=72,tube=10){return surface(seg,tube,(u,v)=>{const a=u*Math.PI*2,b=v*Math.PI*2;return [(R+r*Math.cos(b))*Math.cos(a),r*Math.sin(b),(R+r*Math.cos(b))*Math.sin(a)];},true);}
+  function catmull(points,t){
+    const st=Math.max(0,Math.min(.999999,t))*(points.length-1),i=Math.floor(st),u=st-i;
+    const p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];
+    return [0,1,2].map(k=>.5*((2*p1[k])+(-p0[k]+p2[k])*u+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*u*u+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*u*u*u));
+  }
+  function tube(points,radius=.03,segments=40,sides=10,flatten=1){
+    const p=[],n=[],idx=[];
+    for(let j=0;j<=segments;j++){
+      const t=j/segments,c=catmull(points,t),tangent=V.norm(V.sub(catmull(points,Math.min(.999999,t+.001)),catmull(points,Math.max(0,t-.001))));
+      const axis=V.norm(V.cross(tangent,Math.abs(tangent[1])>.95?[1,0,0]:[0,1,0])),b=V.norm(V.cross(tangent,axis));
+      let r=typeof radius==='function'?radius(t):radius;
+      for(let i=0;i<=sides;i++){let a=i/sides*Math.PI*2,nn=V.add(V.mul(axis,Math.cos(a)),V.mul(b,Math.sin(a)));const delta=[nn[0]*r,nn[1]*r*flatten,nn[2]*r];p.push(...V.add(c,delta));n.push(...V.norm([nn[0],nn[1]/flatten,nn[2]]));}
+    }
+    for(let j=0;j<segments;j++)for(let i=0;i<sides;i++){let a=j*(sides+1)+i,b=a+sides+1;idx.push(a,b,a+1,b,b+1,a+1);}return {p,n,idx};
+  }
+  function rotate(v,r){let[x,y,z]=v;const[cx,sx,cy,sy,cz,sz]=[Math.cos(r[0]),Math.sin(r[0]),Math.cos(r[1]),Math.sin(r[1]),Math.cos(r[2]),Math.sin(r[2])];[y,z]=[y*cx-z*sx,y*sx+z*cx];[x,z]=[x*cy+z*sy,-x*sy+z*cy];return[x*cz-y*sz,x*sz+y*cz,z];}
+  class Batch{
+    constructor(){this.vertices=[];this.indices=[];}
+    add(geo,material,pos=[0,0,0],scale=[1,1,1],rot=[0,0,0]){
+      const offset=this.vertices.length/13;
+      for(let i=0;i<geo.p.length;i+=3){let p=rotate([geo.p[i]*scale[0],geo.p[i+1]*scale[1],geo.p[i+2]*scale[2]],rot);let n=V.norm(rotate([geo.n[i]/scale[0],geo.n[i+1]/scale[1],geo.n[i+2]/scale[2]],rot));this.vertices.push(p[0]+pos[0],p[1]+pos[1],p[2]+pos[2],...n,...material.color,...material.params);}
+      for(const i of geo.idx)this.indices.push(i+offset);
+    }
+    upload(gl){
+      this.count=this.indices.length;this.vao=gl.createVertexArray();gl.bindVertexArray(this.vao);
+      this.vbo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.vbo);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(this.vertices),gl.STATIC_DRAW);
+      this.ebo=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.ebo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(this.indices),gl.STATIC_DRAW);
+      const stride=13*4;[[0,3,0],[1,3,3],[2,3,6],[3,4,9]].forEach(([i,size,off])=>{gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,size,gl.FLOAT,false,stride,off*4);});
+      gl.bindVertexArray(null);this.vertices=null;this.indices=null;
+    }
+    draw(gl){if(!this.count)return;gl.bindVertexArray(this.vao);gl.drawElements(gl.TRIANGLES,this.count,gl.UNSIGNED_INT,0);}
+  }
+  const VS=`#version 300 es
+  precision highp float;
+  layout(location=0) in vec3 aPosition;layout(location=1) in vec3 aNormal;
+  layout(location=2) in vec3 aColor;layout(location=3) in vec4 aMaterial;
+  uniform mat4 uViewProjection;uniform mat4 uLightMatrix;
+  out vec3 vPosition;out vec3 vNormal;out vec3 vColor;out vec4 vMaterial;out vec4 vShadow;
+  void main(){vPosition=aPosition;vNormal=aNormal;vColor=aColor;vMaterial=aMaterial;vShadow=uLightMatrix*vec4(aPosition,1.);gl_Position=uViewProjection*vec4(aPosition,1.);}`;
+  const FS=`#version 300 es
+  precision highp float;
+  in vec3 vPosition;in vec3 vNormal;in vec3 vColor;in vec4 vMaterial;in vec4 vShadow;
+  uniform vec3 uEye;uniform vec3 uSunDir;uniform vec3 uSunColor;uniform float uExposure;uniform float uWarm;
+  uniform sampler2D uShadow;uniform vec2 uShadowSize;uniform float uShadowOn;
+  out vec4 fragColor;
+  const float PI=3.14159265;
+  float hash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+  float noise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}
+  float shadow(vec3 N){
+    if(uShadowOn<.5)return 1.;vec3 sc=vShadow.xyz/vShadow.w*.5+.5;
+    if(sc.x<0.||sc.x>1.||sc.y<0.||sc.y>1.||sc.z>1.)return 1.;
+    float bias=max(.00035*(1.-dot(N,uSunDir)),.00011),sum=0.;
+    for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++){float d=texture(uShadow,sc.xy+vec2(float(x),float(y))/uShadowSize).r;sum+=(sc.z-bias<=d)?1.:.30;}
+    return sum/9.;
+  }
+  vec3 fresnel(float cosT,vec3 F0){return F0+(1.-F0)*pow(1.-cosT,5.);}
+  vec3 brdf(vec3 L,vec3 radiance,vec3 N,vec3 V,vec3 albedo,float rough,float metallic){
+    vec3 H=normalize(V+L);float NoL=max(dot(N,L),0.),NoV=max(dot(N,V),.001),NoH=max(dot(N,H),0.),HoV=max(dot(H,V),0.);
+    float a=rough*rough,a2=a*a,den=NoH*NoH*(a2-1.)+1.;float D=a2/max(PI*den*den,.0001);
+    float k=(rough+1.)*(rough+1.)/8.;float gg=NoV/(NoV*(1.-k)+k)*NoL/max(NoL*(1.-k)+k,.0001);
+    vec3 F=fresnel(HoV,mix(vec3(.04),albedo,metallic));vec3 spec=D*gg*F/max(4.*NoV*NoL,.001);
+    return ((1.-F)*(1.-metallic)*albedo/PI+spec)*radiance*NoL;
+  }
+  vec3 env(vec3 r){
+    float up=smoothstep(-.3,.9,r.y);vec3 c=mix(vec3(.22,.16,.10),vec3(.86,.91,.96),up);
+    c+=vec3(1.0,.93,.76)*pow(max(dot(r,normalize(vec3(-.65,.38,.2))),0.),18.)*.85;
+    c+=vec3(1.0,.98,.90)*pow(max(dot(r,normalize(vec3(.2,.88,.05))),0.),28.)*1.4;
+    return c;
+  }
+  vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
+  void main(){
+    vec3 N=normalize(vNormal),V=normalize(uEye-vPosition),albedo=pow(vColor,vec3(2.2));
+    float rough=vMaterial.x,metal=vMaterial.y,type=vMaterial.z,emission=vMaterial.w;
+    if(type>.5&&type<1.5){
+      vec2 uv=(vPosition.xz+vec2(6.25,8.))/1.25;vec2 f=fract(uv),line=min(f,1.-f);vec2 fw=max(fwidth(uv),vec2(.0008));
+      float seam=1.-min(smoothstep(.006,.006+fw.x,line.x),smoothstep(.006,.006+fw.y,line.y));
+      float tile=hash(vec3(floor(uv),3.));float grain=noise(vPosition*vec3(6.,1.,20.));
+      albedo*=.89+tile*.14+grain*.07;albedo=mix(albedo,albedo*.66,seam*.75);rough+=grain*.025;
+    }else if(type>1.5&&type<2.5){float st=noise(vPosition*vec3(7.,24.,5.));albedo*=.94+.08*st;}
+    else if(type>2.5&&type<3.5){float grain=sin(vPosition.x*100.+vPosition.z*80.+noise(vPosition*vec3(7.,.3,6.))*13.);albedo*=.94+.035*grain+.04*noise(vPosition*4.);}
+    else if(type>4.5&&type<5.5){albedo*=.93+.1*hash(floor(vPosition*220.));}
+    float ao=1.;if(vPosition.y<.12){vec2 d=max(abs(vPosition.xz-vec2(0.,-3.9))-vec2(3.,2.5),vec2(0.));ao*=1.-.20*exp(-length(d)*4.);
+      for(int i=0;i<6;i++){float x=(i<3)?-4.7:4.7;float z=-5.8+float(i%3)*5.6;float dst=length(vPosition.xz-vec2(x,z));ao*=1.-.17*exp(-max(dst-.34,0.)*5.);}}
+    float NoV=max(dot(N,V),.01);vec3 F0=mix(vec3(.04),albedo,metal),Fr=fresnel(NoV,F0);
+    float hemi=.5+.5*N.y;vec3 irradiance=mix(vec3(.46,.36,.27),vec3(.98,1.01,1.05),hemi)*.62;
+    vec3 c=albedo*(1.-metal)*irradiance*ao;
+    vec3 refl=env(reflect(-V,N));c+=refl*mix(F0,Fr,.42)*(1.-rough*.52)*ao;
+    c+=brdf(uSunDir,uSunColor*2.8,N,V,albedo,rough,metal)*shadow(N);
+    c+=brdf(normalize(vec3(.4,.5,1.)),vec3(.85,.78,.62)*.6,N,V,albedo,rough,metal);
+    for(int i=0;i<2;i++){vec3 lp=vec3(i==0?-3.6:3.6,1.5,-1.15);vec3 ld=lp-vPosition;float dis=dot(ld,ld);c+=brdf(normalize(ld),vec3(1.,.53,.17)*3.5/(1.+dis),N,V,albedo,rough,metal);}
+    c+=albedo*emission;
+    c*=mix(vec3(1.),vec3(1.08,.91,.76),uWarm);
+    c=aces(c*uExposure);c=pow(c,vec3(1./2.2));fragColor=vec4(c,1.);
+  }`;
+  const SHADOW_VS=`#version 300 es
+  precision highp float;layout(location=0) in vec3 aPosition;uniform mat4 uLightMatrix;void main(){gl_Position=uLightMatrix*vec4(aPosition,1.);}`;
+  const SHADOW_FS=`#version 300 es
+  precision highp float;void main(){}`;
+  function program(gl,vs,fs){
+    const compile=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){const info=gl.getShaderInfoLog(s);gl.deleteShader(s);throw new Error('Shader: '+info);}return s;};
+    const v=compile(gl.VERTEX_SHADER,vs),f=compile(gl.FRAGMENT_SHADER,fs),p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);gl.deleteShader(v);gl.deleteShader(f);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return p;
+  }
+  class Renderer{
+    constructor(canvas,batches){
+      this.canvas=canvas;this.gl=canvas.getContext('webgl2',{antialias:true,alpha:false,powerPreference:'high-performance',preserveDrawingBuffer:false});
+      if(!this.gl)throw new Error('Không khởi tạo được WebGL 2. Hãy bật tăng tốc đồ họa hoặc thử trình duyệt khác.');
+      const gl=this.gl;this.program=program(gl,VS,FS);this.shadowProgram=program(gl,SHADOW_VS,SHADOW_FS);
+      this.u={};for(const n of ['uViewProjection','uLightMatrix','uEye','uSunDir','uSunColor','uExposure','uWarm','uShadow','uShadowSize','uShadowOn'])this.u[n]=gl.getUniformLocation(this.program,n);
+      this.shadowMatrixLocation=gl.getUniformLocation(this.shadowProgram,'uLightMatrix');
+      this.batches=batches;for(const batch of batches)batch.upload(gl);
+      this.sunPos=[-9,14,9];this.sunTarget=[0,2,-2];this.sunDir=V.norm(V.sub(this.sunPos,this.sunTarget));
+      this.lightMatrix=M.multiply(M.ortho(-12,12,-12,12,1,42),M.lookAt(this.sunPos,this.sunTarget));
+      this.exposure=1.04;this.warm=0;this.shadowOn=true;this.shadowSize=2048;
+      gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);
+      this.makeShadow();this.renderShadow();
+    }
+    makeShadow(){
+      const gl=this.gl;if(this.shadowTexture)gl.deleteTexture(this.shadowTexture);if(this.shadowFBO)gl.deleteFramebuffer(this.shadowFBO);
+      this.shadowTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.shadowTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.DEPTH_COMPONENT24,this.shadowSize,this.shadowSize,0,gl.DEPTH_COMPONENT,gl.UNSIGNED_INT,null);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+      this.shadowFBO=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,this.shadowFBO);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.TEXTURE_2D,this.shadowTexture,0);gl.drawBuffers([gl.NONE]);gl.readBuffer(gl.NONE);
+      if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error('GPU không hỗ trợ bộ đệm bóng đổ.');gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+    }
+    renderShadow(){const gl=this.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,this.shadowFBO);gl.viewport(0,0,this.shadowSize,this.shadowSize);gl.clear(gl.DEPTH_BUFFER_BIT);gl.useProgram(this.shadowProgram);gl.uniformMatrix4fv(this.shadowMatrixLocation,false,this.lightMatrix);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(1.1,2.);this.batches[0].draw(gl);gl.disable(gl.POLYGON_OFFSET_FILL);gl.bindFramebuffer(gl.FRAMEBUFFER,null);}
+    resize(w,h){this.canvas.width=Math.max(1,Math.round(w));this.canvas.height=Math.max(1,Math.round(h));}
+    render(eye,target,fov=62){
+      const gl=this.gl,w=this.canvas.width,h=this.canvas.height;if(gl.isContextLost())return;
+      gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,w,h);gl.clearColor(.89,.88,.84,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
+      const vp=M.multiply(M.perspective(fov*Math.PI/180,w/h,.07,90),M.lookAt(eye,target));
+      gl.uniformMatrix4fv(this.u.uViewProjection,false,vp);gl.uniformMatrix4fv(this.u.uLightMatrix,false,this.lightMatrix);gl.uniform3fv(this.u.uEye,eye);gl.uniform3fv(this.u.uSunDir,this.sunDir);gl.uniform3fv(this.u.uSunColor,[1.,.94,.81]);
+      gl.uniform1f(this.u.uExposure,this.exposure);gl.uniform1f(this.u.uWarm,this.warm);gl.uniform1f(this.u.uShadowOn,this.shadowOn?1:0);gl.uniform2f(this.u.uShadowSize,this.shadowSize,this.shadowSize);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.shadowTexture);gl.uniform1i(this.u.uShadow,0);
+      for(const batch of this.batches)batch.draw(gl);gl.bindVertexArray(null);
+    }
+    get triangles(){return this.batches.reduce((s,b)=>s+b.count/3,0);}
+  }
+  return {V,M,mat,color,cube,sphere,surface,lathe,cylinder,torus,tube,catmull,rotate,Batch,Renderer};
+})();
+</script>
+<script>/* Spatial design, 12.5 x 16 m interior, 9 m ceiling.
+   The Buddha is an ORIGINAL PROCEDURAL BLOCKOUT, not a scanned/sculpted final asset.
+   Replace buildBuddha() for a subsequent art-production pass. */
+'use strict';
+function buildHall(){
+  const {mat,cube,sphere,cylinder,torus,lathe,tube,surface,Batch,V}=G;
+  const solid=new Batch(),shell=new Batch();
+  const m={
+    floor:mat('#d8d1c0',.52,0,1),wall:mat('#e3ddcd',.86,0,2),stone:mat('#d3c9b4',.64,0,2),
+    lightStone:mat('#ece5d6',.57,0,2),darkStone:mat('#a79b83',.68,0,2),
+    wood:mat('#ae8a60',.58,0,3),darkWood:mat('#6f553b',.63,0,3),beam:mat('#c0a079',.7,0,3),
+    bronze:mat('#967647',.44,.72),gold:mat('#c8a359',.53,.60),goldLight:mat('#cba85e',.52,.60),
+    goldDark:mat('#aa8846',.58,.55),hair:mat('#a18547',.57,.58),eye:mat('#917340',.65,.3),
+    glass:mat('#fff4d9',.78,0,0,.6),window:mat('#ecf1e8',1,0,0,.47),
+    lamp:mat('#ffe6ab',.63,0,0,2.2),cushion:mat('#baa07e',.97,0,5),green:mat('#687957',.85),
+    ink:mat('#665642',.8),black:mat('#4f483e',.75),ivory:mat('#e6dfce',.52)
+  };
+  const add=(g,ma,p=[0,0,0],s=[1,1,1],r=[0,0,0],cast=true)=>(cast?solid:shell).add(g,ma,p,s,r);
+  const box=(p,s,ma=m.stone,cast=true,r=[0,0,0])=>add(cube,ma,p,s,r,cast);
+  const ell=(p,s,ma=m.gold,r=[0,0,0],seg=36,rings=22)=>add(sphere(seg,rings),ma,p,s,r);
+  const cyl=(p,rt,rb,h,ma=m.stone,seg=40)=>add(cylinder(rt,rb,h,seg),ma,p);
+  const line=(points,r,ma=m.gold,flatten=1,segments=40,sides=10)=>add(tube(points,r,segments,sides,flatten),ma);
+  const ring=(p,R,r,ma=m.gold,rot=[0,0,0])=>add(torus(R,r,88,10),ma,p,[1,1,1],rot);
+
+  // Floor and envelope. Shell geometry is excluded from the sun shadow pass:
+  // the prototype uses an artistic indirect-light approximation, not baked GI.
+  box([0,-.11,0],[12.5,.22,16],m.floor,false);
+  box([0,4.5,-8.13],[12.9,9,.26],m.wall,false);
+  box([-4.48,4.5,8.13],[3.54,9,.26],m.wall,false);
+  box([4.48,4.5,8.13],[3.54,9,.26],m.wall,false);
+  box([0,7.0,8.13],[5.4,4,.26],m.wall,false);
+  box([0,2.6,8.48],[5.4,5.2,.10],m.window,false);
+  // Entrance door frame, restrained Asian timber construction.
+  for(const x of [-2.73,2.73])box([x,2.6,8.0],[.20,5.2,.30],m.darkWood);
+  box([0,5.22,8.0],[5.65,.24,.30],m.darkWood);
+  for(const x of [-2.46,2.46])box([x,2.4,8.28],[.20,4.8,.13],m.wood);
+  box([0,5.8,8.0],[3.5,.42,.12],m.darkWood);
+  // Side wall plinths, clerestory, and windows with actual mullion geometry.
+  for(const sx of [-1,1]){
+    box([sx*6.39,.56,0],[.28,1.12,16],m.stone,false);
+    box([sx*6.39,8.01,0],[.28,1.98,16],m.wall,false);
+    box([sx*6.20,.15,0],[.12,.28,16],m.darkStone,false);
+    box([sx*6.2,1.12,0],[.15,.11,16],m.lightStone);
+    const centres=[-6.,-2.,2.,6.];
+    for(const z of [-8,-4,0,4,8])box([sx*6.37,4.1,z],[.30,6.0,.46],m.wall,false);
+    for(const z of centres){
+      box([sx*6.51,4.1,z],[.06,5.85,3.52],m.window,false);
+      for(const zz of [z-1.65,z+1.65])box([sx*6.18,4.1,zz],[.16,5.95,.09],m.wood);
+      for(const yy of [1.18,4.52,6.99])box([sx*6.18,yy,z],[.16,.10,3.40],m.wood);
+      for(let i=-3;i<=3;i++)box([sx*6.18,4.15,z+i*.44],[.13,5.72,.035],m.beam);
+      for(let i=0;i<5;i++)box([sx*6.18,4.74+i*.44,z],[.13,.035,3.35],m.beam);
+      box([sx*6.02,.53,z],[.08,.72,3.35],m.lightStone,false);
+      for(const zz of [z-1.55,z+1.55])box([sx*5.98,.53,zz],[.04,.62,.022],m.bronze);
+    }
+  }
+  // Quiet timber ceiling: real beams, open skylight panels rather than glow effects.
+  box([0,9.12,0],[12.9,.24,16.3],m.wood,false);
+  for(const x of [-5.8,-4.7,-3.2,3.2,4.7,5.8])box([x,8.8,0],[.22,.4,16],m.beam);
+  for(let z=-7.8;z<=8;z+=2.6){
+    box([0,8.70,z],[12.6,.46,.20],m.wood);
+    for(let x=-5.8;x<=5.8;x+=1.45)box([x,8.93,z+1.24],[.035,.08,2.30],m.darkWood);
+  }
+  box([0,8.97,-2.6],[5.8,.06,6.75],m.window,false);
+  for(const x of [-2.98,2.98])box([x,8.70,-2.6],[.15,.40,7.1],m.wood);
+  for(let z=-6.1;z<1.;z+=.8)box([0,8.89,z],[5.8,.08,.065],m.beam);
+  for(let x=-2.8;x<=2.8;x+=.70)box([x,8.89,-2.6],[.045,.08,6.7],m.beam);
+  // Six slender, tall structural columns. Their feet provide scale references.
+  const columnPositions=[];
+  for(const x of [-4.7,4.7])for(const z of [-5.8,-.2,5.4]){
+    columnPositions.push([x,z]);
+    box([x,.11,z],[.83,.22,.83],m.stone);
+    box([x,.24,z],[.69,.08,.69],m.lightStone);
+    cyl([x,.42,z],.31,.34,.34,m.lightStone);
+    cyl([x,4.18,z],.245,.30,7.2,m.lightStone,48);
+    cyl([x,.67,z],.306,.306,.065,m.bronze);
+    cyl([x,7.77,z],.32,.26,.12,m.bronze);
+    cyl([x,7.97,z],.39,.32,.29,m.stone);
+    box([x,8.23,z],[.84,.23,.68],m.beam);
+    box([x,8.40,z],[1.14,.14,.72],m.wood);
+    box([x,8.53,z],[1.56,.12,.78],m.beam);
+    box([x,8.62,z],[.22,.15,1.25],m.beam);
+  }
+  for(const x of [-4.7,4.7])box([x,8.3,-.1],[.38,.36,15.2],m.beam);
+  // Back wall, inset panels and a single focal recess.
+  box([0,4.25,-7.94],[6.90,7.80,.09],m.lightStone,false);
+  for(const x of [-3.54,3.54])box([x,4.22,-7.82],[.055,7.88,.04],m.bronze);
+  for(const y of [.28,8.17])box([0,y,-7.82],[7.15,.055,.04],m.bronze);
+  for(const sx of [-1,1]){
+    for(let i=0;i<10;i++)box([sx*(3.87+i*.208),4.1,-7.87],[.045,7.62,.07],m.beam,false);
+  }
+  // Altar zone: 6 x 5 m, surrounded by a continuous walkable aisle.
+  box([0,.135,-3.9],[6,.27,5],m.darkStone);
+  box([0,.32,-3.9],[5.90,.11,4.90],m.lightStone);
+  box([0,.411,-3.9],[5.75,.075,4.75],m.stone);
+  box([0,.466,-3.9],[5.80,.035,4.80],m.bronze);
+  box([0,.10,-1.24],[3.6,.20,.45],m.stone);
+  box([0,.22,-1.48],[3.35,.24,.28],m.lightStone);
+  // Recessed bronze aisle inlay, not a carpet stretching up to the statue.
+  for(const x of [-2.8,2.8])box([x,.004,3.4],[.014,.007,8.4],m.bronze,false);
+  box([0,.004,7.6],[5.62,.007,.014],m.bronze,false);
+  for(const x of [-2.2,2.2])for(const z of [1.1,3.25]){
+    box([x,.07,z],[.66,.14,.62],m.cushion);
+    box([x,.145,z],[.62,.015,.58],m.cushion);
+  }
+  // Two low benches, discrete and deliberately outside the central sightline.
+  const benches=[];
+  for(const x of [-5.35,5.35]){
+    const z=2.5;benches.push({x,z,hx:.33,hz:1.05});
+    box([x,.47,z],[.66,.12,2.1],m.wood);
+    for(const zz of [z-.82,z+.82])box([x,.23,zz],[.47,.46,.13],m.darkWood);
+    for(const xx of [x-.28,x+.28])box([xx,.548,z],[.015,.015,2.0],m.bronze);
+  }
+  // A bronze lantern pair with diffused, warm material and small actual geometry.
+  for(const x of [-3.6,3.6]){
+    const z=-1.15;cyl([x,.07,z],.29,.32,.14,m.darkStone);cyl([x,.55,z],.046,.074,.92,m.bronze);
+    cyl([x,1.04,z],.15,.09,.10,m.bronze);box([x,1.35,z],[.26,.52,.26],m.glass);
+    for(const a of [-1,1])for(const b of [-1,1])box([x+a*.153,1.35,z+b*.153],[.033,.61,.033],m.bronze);
+    box([x,1.65,z],[.43,.05,.43],m.bronze);box([x,1.05,z],[.38,.05,.38],m.bronze);
+    add(cylinder(.0,.30,.15,4),m.bronze,[x,1.75,z],[1,1,1],[0,Math.PI/4,0]);
+    ell([x,1.88,z],[.045,.066,.045],m.bronze,undefined,16,10);
+    ell([x,1.32,z],[.035,.105,.035],m.lamp,undefined,12,8);
+  }
+  // A low offering console, kept in front of the plinth so the statue remains clear.
+  box([0,.80,-1.93],[2.9,.13,.58],m.darkWood);
+  for(const x of [-1.26,1.26])box([x,.62,-1.93],[.10,.34,.42],m.darkWood);
+  box([0,.875,-1.93],[2.92,.025,.59],m.bronze);
+  cyl([0,1.01,-1.93],.14,.19,.24,m.bronze);
+  for(const x of [-.055,0,.055])cyl([x,1.36,-1.93],.006,.006,.46,m.darkWood,8);
+  for(const sx of [-1,1]){
+    const x=sx*1.08;cyl([x,.966,-1.93],.086,.12,.16,m.ivory);cyl([x,1.09,-1.93],.055,.08,.12,m.ivory);
+    for(let i=0;i<4;i++){const xx=x+(i-1.5)*.055,zz=-1.93+Math.sin(i)*.06,yy=1.42+i%2*.12;
+      line([[x,1.11,-1.93],[xx,yy-.14,zz],[xx,yy,zz]],.005,m.green,1,10,5);
+      ell([xx,yy,zz],[.047,.065,.045],m.ivory,undefined,12,8);
+    }
+  }
+  buildBuddha();
+  function buildBuddha(){
+    const z0=-4.15;
+    const badd=(geo,ma,pos=[0,0,0],scale=[1,1,1],rot=[0,0,0])=>add(geo,ma,[pos[0],pos[1],pos[2]+z0],scale,rot);
+    const be=(p,s,ma=m.gold,r=[0,0,0],se=40,ri=24)=>badd(sphere(se,ri),ma,p,s,r);
+    const bl=(points,r,ma=m.gold,flatten=1,segments=48,sides=12)=>badd(tube(points,r,segments,sides,flatten),ma);
+    // Lotus throne: restrained overlapping petals rather than excessive decoration.
+    badd(lathe([[0,.48],[1.60,.48],[1.67,.52],[1.67,.60],[1.54,.67],[1.57,.77],[1.68,.91],[1.58,1.13],[1.43,1.23],[0,1.23]],80),m.goldDark);
+    for(let tier=0;tier<2;tier++)for(let i=0;i<28;i++){
+      const a=(i+tier*.5)/28*Math.PI*2,r=tier?1.42:1.48;
+      const petal=surface(18,18,(u,v)=>{const an=u*Math.PI*2,rr=Math.pow(Math.max(.000001,Math.sin(Math.PI*v)),.85)*(1.22-.50*v);return [Math.cos(an)*.19*rr,v*.43,Math.sin(an)*.098*rr+.09*v*v];},true);
+      badd(petal,tier?m.goldLight:m.gold,[Math.sin(a)*r,.58+tier*.25,Math.cos(a)*r],[1,1,1],[0,a,0]);
+    }
+    for(const y of [.55,.67,1.16])badd(torus(y>1?1.47:1.62,.028,100,10),m.goldLight,[0,y,0]);
+    // Silhouette of crossed legs, both knees contained on the lotus seat.
+    be([0,1.40,.10],[1.48,.35,.73],m.gold);
+    be([-.86,1.48,.08],[.70,.30,.63],m.gold,[0,-.10,-.05]);
+    be([.86,1.48,.08],[.70,.30,.63],m.gold,[0,.10,.05]);
+    bl([[-1.37,1.45,.33],[-.94,1.40,.68],[-.32,1.46,.73],[.36,1.52,.47],[.73,1.65,.26]],t=>.19+.085*Math.sin(Math.PI*t),m.goldLight,.78,64,20);
+    bl([[1.36,1.45,.28],[.87,1.45,.65],[.28,1.54,.70],[-.31,1.65,.54],[-.57,1.72,.43]],t=>.16+.07*Math.sin(Math.PI*t),m.gold,.78,64,20);
+    be([-.48,1.77,.47],[.31,.11,.14],m.goldLight,[.15,.08,-.06]);
+    for(let i=0;i<5;i++)be([-.69+i*.064,1.787,.563],[.037,.034,.064],m.goldLight,undefined,14,10);
+    // Continuous shaped torso, a single parametric surface with subtle fabric folds.
+    const profile=[[1.60,.65,.37],[1.82,.68,.43],[2.10,.61,.41],[2.40,.58,.40],[2.72,.62,.42],[3.02,.71,.42],[3.24,.78,.36],[3.40,.73,.28],[3.54,.44,.235],[3.62,.25,.225]];
+    function pr(y){
+      let k=0;while(k<profile.length-2&&y>profile[k+1][0])k++;
+      const a=profile[k],b=profile[k+1],prev=profile[Math.max(0,k-1)],next=profile[Math.min(profile.length-1,k+2)];
+      const h=b[0]-a[0],t=Math.max(0,Math.min(1,(y-a[0])/h)),t2=t*t,t3=t2*t;
+      return [1,2].map(j=>{const m0=(b[j]-prev[j])/(b[0]-prev[0]),m1=(next[j]-a[j])/(next[0]-a[0]);return (2*t3-3*t2+1)*a[j]+(t3-2*t2+t)*h*m0+(-2*t3+3*t2)*b[j]+(t3-t2)*h*m1;});
+    }
+    badd(surface(80,80,(u,v)=>{
+      const y=1.60+v*2.02,[rx,rz]=pr(y),a=u*Math.PI*2;let x=Math.sin(a)*rx,z=Math.cos(a)*rz;
+      if(z>0&&x>(2.9-y)*.35-.08){z+=.014*Math.sin(y*22.+x*8.)*Math.sin(a*2.+.7);}
+      return[x,y,z];
+    }),m.gold);
+    // Robe edge draped over the figure's left shoulder, across the torso.
+    bl([[.47,3.53,.17],[.52,3.32,.33],[.28,2.99,.433],[-.08,2.64,.424],[-.43,2.21,.413],[-.59,1.84,.40]],.037,m.goldLight,1,60,10);
+    for(let i=0;i<5;i++){
+      const off=i*.060;
+      bl([[.69,3.30-off,.23],[.62,2.96-off,.31],[.45,2.65-off,.363],[.15,2.26-off,.407],[-.27,1.88-off*.6,.426]],.014,m.goldDark,1,50,8);
+    }
+    // Neck, head, and quiet, closed-eye expression.
+    be([0,3.64,0],[.246,.25,.226],m.goldLight);
+    be([0,4.16,-.012],[.427,.575,.371],m.goldLight,undefined,64,48);
+    // Ears: elongated lobes and recessed inner forms, all in the same metal family.
+    for(const sx of [-1,1]){
+      be([sx*.448,4.13,-.016],[.101,.273,.096],m.goldLight,[0,0,sx*-.055]);
+      be([sx*.473,4.16,.068],[.039,.172,.027],m.goldDark,undefined,24,16);
+      be([sx*.446,3.947,.026],[.072,.113,.081],m.goldLight,undefined,24,16);
+      const x=sx*.165;
+      bl([[x-sx*.096,4.222,.336],[x,4.195,.358],[x+sx*.106,4.219,.313]],.009,m.eye,1,28,8);
+      bl([[x-sx*.106,4.31,.324],[x,4.333,.333],[x+sx*.112,4.296,.282]],.009,m.goldDark,1,28,8);
+      // Cheek volume is part of the continuous oval head, avoiding separate lobes.
+    }
+    // Nose and lips are deliberately understated at blockout fidelity.
+    be([0,4.145,.359],[.041,.130,.045],m.goldLight,undefined,30,20);
+    be([0,4.072,.404],[.053,.043,.047],m.goldLight,undefined,28,20);
+    for(const sx of [-1,1])be([sx*.047,4.052,.38],[.029,.024,.028],m.goldLight,undefined,24,16);
+    bl([[-.113,3.985,.320],[-.056,3.973,.347],[0,3.982,.357],[.056,3.973,.347],[.113,3.985,.320]],.009,m.goldDark,1,32,8);
+    be([0,3.957,.335],[.083,.022,.025],m.goldLight,undefined,28,14);
+    be([0,4.397,.323],[.018,.020,.016],m.goldLight,undefined,16,12);
+    // Hair cap and regular, small curls: procedural placement, not a texture billboard.
+    badd(surface(56,24,(u,v)=>{const a=u*Math.PI*2,b=v*1.19;return[.452*Math.sin(b)*Math.cos(a),4.17+.586*Math.cos(b),-.012+.38*Math.sin(b)*Math.sin(a)];},true),m.hair);
+    for(let j=1;j<=9;j++){
+      const b=j/9*1.19,count=Math.max(8,Math.round(46*Math.sin(b)));
+      for(let i=0;i<count;i++){
+        const a=(i+j%2*.5)/count*Math.PI*2;
+        be([.454*Math.sin(b)*Math.cos(a),4.17+.585*Math.cos(b),-.012+.383*Math.sin(b)*Math.sin(a)],[.033,.033,.033],m.hair,undefined,8,7);
+      }
+    }
+    be([0,4.73,-.034],[.179,.206,.158],m.hair,undefined,36,24);
+    for(let j=0;j<4;j++)for(let i=0;i<15-j*2;i++){
+      const a=i/(15-j*2)*Math.PI*2,r=.155*(1-j*.15);be([r*Math.cos(a),4.75+j*.038,-.034+r*.82*Math.sin(a)],[.027,.029,.026],m.goldDark,undefined,8,7);
+    }
+    be([0,4.928,-.034],[.053,.073,.052],m.goldDark,undefined,24,14);
+    // Both arms, natural seated gesture: right hand over the knee; left hand in lap.
+    bl([[-.65,3.37,.02],[-.88,3.10,.015],[-.98,2.62,.06],[-1.13,2.16,.21],[-1.23,1.91,.40]],t=>.20-.08*t,m.goldLight,1,64,20);
+    be([-1.245,1.79,.49],[.15,.20,.083],m.goldLight,[.21,-.09,-.12]);
+    for(let i=0;i<4;i++){
+      const x=-1.36+i*.067;bl([[x,1.82,.53],[x+.01,1.65,.56],[x+.025,1.56+.024*Math.abs(i-1.5),.525]],.025,m.goldLight,1,20,10);
+    }
+    bl([[-1.13,1.90,.51],[-1.072,1.76,.51],[-1.10,1.70,.53]],.032,m.goldLight,1,22,10);
+    bl([[.67,3.38,.015],[.86,3.08,.02],[1.01,2.58,.10],[.97,2.23,.29],[.66,2.04,.49],[.22,1.94,.56]],t=>.21-.115*t,m.gold,1,72,20);
+    be([.10,1.94,.57],[.26,.07,.13],m.goldLight,[0,-.10,.07]);
+    for(let i=0;i<4;i++)bl([[.10,1.957,.485+i*.055],[-.12,1.965,.49+i*.055],[-.22,1.977,.50+i*.049]],.023,m.goldLight,1,22,10);
+    bl([[.23,2.01,.48],[.085,2.052,.44],[-.015,2.02,.46]],.032,m.goldLight,1,22,10);
+    // Shallow engraved robe arcs on the folded legs.
+    for(let i=0;i<4;i++){
+      const k=i*.053;bl([[-1.14,1.29+k,.51],[-.59,1.26+k,.745],[0,1.28+k,.792],[.69,1.31+k,.64]],.012,m.goldDark,1,52,8);
+    }
+    // Physical bronze halo, not an emissive or supernatural lighting effect.
+    badd(torus(2.025,.031,144,10),m.bronze,[0,3.28,-.99],[1,1,1],[Math.PI/2,0,0]);
+    badd(torus(2.105,.012,144,8),m.bronze,[0,3.28,-.99],[1,1,1],[Math.PI/2,0,0]);
+    for(const x of [-.76,.76])badd(cylinder(.019,.022,.80,12),m.bronze,[x,.90,-.99]);
+  }
+  return {batches:[solid,shell],columns:columnPositions,benches,dimensions:{width:12.5,depth:16,height:9},materials:m};
+}
+</script>
+<script>/* Interaction layer. No network calls, external assets, build tools or backend required. */
+'use strict';
+(() => {
+  const $=id=>document.getElementById(id),canvas=$('scene');
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const initiallyTouch=matchMedia('(pointer:coarse)').matches;
+  const defaults={quality:initiallyTouch?'low':'balanced',fov:initiallyTouch?70:62,sensitivity:1,light:'day',shadows:true,touch:initiallyTouch};
+  let settings={...defaults};
+  try{const saved=JSON.parse(localStorage.getItem('dai-dien-v1-settings')||'null');if(saved&&typeof saved==='object'){
+    if(['low','balanced','sharp','ultra'].includes(saved.quality))settings.quality=saved.quality;
+    if(Number.isFinite(saved.fov))settings.fov=clamp(saved.fov,45,85);
+    if(Number.isFinite(saved.sensitivity))settings.sensitivity=clamp(saved.sensitivity,.4,1.8);
+    if(['day','warm'].includes(saved.light))settings.light=saved.light;
+    if(typeof saved.shadows==='boolean')settings.shadows=saved.shadows;
+    if(typeof saved.touch==='boolean')settings.touch=initiallyTouch||saved.touch;
+  }}catch(_){}
+  const state={x:0,y:1.65,z:6.55,yaw:0,pitch:.16,started:false,dirty:true,panel:null,capturing:false,lost:false,moving:false};
+  const keys=new Set();let hall,renderer,last=performance.now(),toastTimer,hideHintTimer,drag=null,joy=null,joyVec=[0,0],lastMap=0,audioCtx=null,lastBell=-10000,transitionTimer;
+  const pose={entrance:{p:[0,1.65,6.55],t:[0,3.42,-4.15],label:'Lối vào đại điện'},contemplate:{p:[0,1.65,.6],t:[0,3.35,-4.15],label:'Phía trước tượng Phật'},rear:{p:[0,1.65,-7.12],t:[0,3.05,-4.15],label:'Lối phía sau tượng'}};
+  function toast(text,ms=3800){clearTimeout(toastTimer);$('toast').textContent=text;$('toast').classList.add('show');toastTimer=setTimeout(()=>$('toast').classList.remove('show'),ms);}
+  function save(){try{localStorage.setItem('dai-dien-v1-settings',JSON.stringify(settings));}catch(_){} }
+  function fail(err){console.error(err);state.lost=true;$('splash').hidden=false;$('splashTitle').textContent='Chưa mở được đại điện';$('splashMessage').textContent=err.message||String(err);$('loaderLine').hidden=true;$('reloadBtn').hidden=false;}
+  $('reloadBtn').addEventListener('click',()=>location.reload());
+  function view(){const c=Math.cos(state.pitch);return [state.x+Math.sin(state.yaw)*c,state.y+Math.sin(state.pitch),state.z-Math.cos(state.yaw)*c];}
+  function render(){if(renderer&&!state.lost){renderer.render([state.x,state.y,state.z],view(),settings.fov);state.dirty=false;}}
+  function resolution(){
+    if(!renderer||state.capturing)return;
+    const w=innerWidth,h=innerHeight,dpr=devicePixelRatio||1;
+    let scale;
+    if(settings.quality==='low')scale=Math.min(1,Math.sqrt(1280*720/(w*h)));
+    else if(settings.quality==='balanced')scale=Math.min(dpr,1.5,Math.sqrt(2560*1440/(w*h)));
+    else if(settings.quality==='sharp')scale=Math.min(Math.max(dpr,1.5),2,Math.sqrt(3200*1800/(w*h)));
+    else scale=Math.min(3840/Math.max(w,h),Math.sqrt(3840*2160/(w*h)),4);
+    const gl=renderer.gl,max=gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+    scale=Math.min(scale,max/w,max/h);
+    renderer.resize(Math.max(1,Math.floor(w*scale)),Math.max(1,Math.floor(h*scale)));state.dirty=true;
+    const names={low:'Nhẹ',balanced:'Cân bằng',sharp:'Sắc nét',ultra:'4K'};
+    $('resolutionLabel').textContent=`${canvas.width.toLocaleString('vi-VN')} × ${canvas.height.toLocaleString('vi-VN')} px · ${names[settings.quality]}`;
+    $('qualityDetail').textContent=`Khung hình hiện tại: ${canvas.width} × ${canvas.height} px. ${settings.quality==='ultra'?'Giữ đúng tỷ lệ màn hình; cạnh dài tối đa 3840 px.':'Đổi mức cao hơn khi cần xem chi tiết.'}`;
+  }
+  function syncSettings(){
+    document.querySelectorAll('[data-quality]').forEach(b=>{b.classList.toggle('selected',b.dataset.quality===settings.quality);b.setAttribute('aria-pressed',String(b.dataset.quality===settings.quality));});
+    $('lightSelect').value=settings.light;$('fov').value=settings.fov;$('fovOut').value=`${settings.fov}°`;
+    $('sensitivity').value=settings.sensitivity;$('sensitivityOut').value=settings.sensitivity.toFixed(1).replace('.',',')+'×';
+    $('shadowToggle').checked=settings.shadows;$('touchToggle').checked=settings.touch;document.body.classList.toggle('touch-controls',settings.touch);
+    if(renderer){renderer.warm=settings.light==='warm'?.65:0;renderer.exposure=settings.light==='warm'?.98:1.04;renderer.shadowOn=settings.shadows;state.dirty=true;}
+  }
+  function release(){if(document.pointerLockElement===canvas)document.exitPointerLock();}
+  function requestLock(){
+    if(settings.touch||state.panel||!canvas.requestPointerLock)return;
+    try{const p=canvas.requestPointerLock();if(p&&p.catch)p.catch(()=>{toast('Kéo chuột để nhìn quanh; WASD vẫn dùng để di chuyển.');});}catch(_){toast('Kéo chuột để nhìn quanh; WASD vẫn dùng để di chuyển.');}
+  }
+  function closePanels(){state.panel=null;$('settingsPanel').hidden=true;$('infoPanel').hidden=true;$('settingsBtn').setAttribute('aria-expanded','false');$('infoBtn').setAttribute('aria-expanded','false');keys.clear();}
+  function togglePanel(id){
+    const was=state.panel===id;closePanels();if(was)return;
+    release();state.panel=id;$(id+'Panel').hidden=false;$(id+'Btn').setAttribute('aria-expanded','true');$(id+'Panel').querySelector('button').focus();resetTouch();
+  }
+  function start(lock=true){
+    if(state.lost||!renderer)return;
+    closePanels();state.started=true;document.body.classList.add('started');$('welcome').hidden=true;$('hint').hidden=false;
+    clearTimeout(hideHintTimer);hideHintTimer=setTimeout(()=>$('hint').hidden=true,14000);
+    if(lock)requestLock();canvas.focus({preventScroll:true});state.dirty=true;
+  }
+  function setPose(which,animate=true){
+    if(!renderer||state.capturing||state.lost)return;
+    start(false);release();keys.clear();resetTouch();
+    const target=pose[which];
+    function move(){
+      const [x,y,z]=target.p,[tx,ty,tz]=target.t;Object.assign(state,{x,y,z,yaw:Math.atan2(tx-x,-(tz-z)),pitch:Math.atan2(ty-y,Math.hypot(tx-x,tz-z)),dirty:true});
+      $('locationLabel').textContent=target.label;setActive(which==='contemplate'?'contemplateBtn':which==='rear'?'rearBtn':'homeBtn');drawMap();render();
+      $('fade').classList.remove('on');
+    }
+    clearTimeout(transitionTimer);
+    if(animate&&!reduceMotion){$('fade').classList.add('on');transitionTimer=setTimeout(move,140);}else move();
+  }
+  function setActive(id){for(const b of ['walkBtn','contemplateBtn','rearBtn','homeBtn'])$(b).classList.toggle('active',b===id);}
+  function circleRect(x,z,cx,cz,hx,hz,r){const dx=x-clamp(x,cx-hx,cx+hx),dz=z-clamp(z,cz-hz,cz+hz);return dx*dx+dz*dz<r*r;}
+  function walkable(x,z){
+    const r=.23;
+    if(Math.abs(x)>6.25-r||Math.abs(z)>8-r)return false;
+    if(circleRect(x,z,0,-3.9,3,2.5,r))return false;
+    if(circleRect(x,z,0,-1.24,1.8,.225,r))return false;
+    for(const [cx,cz]of hall.columns)if(circleRect(x,z,cx,cz,.415,.415,r))return false;
+    for(const b of hall.benches)if(circleRect(x,z,b.x,b.z,b.hx,b.hz,r))return false;
+    for(const cx of [-3.6,3.6])if(Math.hypot(x-cx,z+1.15)<r+.32)return false;
+    return true;
+  }
+  function move(dt){
+    if(!state.started||state.panel||state.capturing||state.lost||document.hidden)return;
+    const forward=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-joyVec[1];
+    const right=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0)+joyVec[0];
+    const len=Math.hypot(forward,right);if(len<.035){state.moving=false;return;}
+    const norm=Math.max(1,len),speed=(keys.has('ShiftLeft')||keys.has('ShiftRight'))?2.25:1.50;
+    const dx=(Math.sin(state.yaw)*forward+Math.cos(state.yaw)*right)/norm*speed*dt;
+    const dz=(-Math.cos(state.yaw)*forward+Math.sin(state.yaw)*right)/norm*speed*dt;
+    // Axis-separated collision resolution permits sliding, with substeps to avoid tunnelling.
+    const n=Math.max(1,Math.ceil(Math.hypot(dx,dz)/.06));
+    for(let i=0;i<n;i++){if(walkable(state.x+dx/n,state.z))state.x+=dx/n;if(walkable(state.x,state.z+dz/n))state.z+=dz/n;}
+    state.dirty=true;state.moving=true;setActive('walkBtn');
+  }
+  function aim(dx,dy){state.yaw+=dx*.0022*settings.sensitivity;state.pitch=clamp(state.pitch-dy*.0022*settings.sensitivity,-1.32,1.40);state.dirty=true;}
+  function drawMap(){
+    if($('mapWrap').classList.contains('collapsed'))return;
+    const c=$('minimap'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+    const x0=24,y0=14,ww=212,hh=271;
+    const pos=(x,z)=>[x0+(x+6.25)/12.5*ww,y0+(z+8)/16*hh];
+    ctx.strokeStyle='#a9997d';ctx.lineWidth=1.8;ctx.beginPath();ctx.roundRect(x0,y0,ww,hh,8);ctx.stroke();
+    const [ax,az]=pos(-3,-6.4),[bx,bz]=pos(3,-1.4);ctx.fillStyle='#d6c7aa';ctx.strokeStyle='#b8a586';ctx.lineWidth=1;
+    ctx.beginPath();ctx.roundRect(ax,az,bx-ax,bz-az,5);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#9a8158';ctx.font='11px -apple-system,Arial';ctx.textAlign='center';ctx.fillText('TƯỢNG PHẬT',130,(az+bz)/2+4);
+    for(const [x,z]of hall.columns){const [px,py]=pos(x,z);ctx.beginPath();ctx.arc(px,py,3.5,0,Math.PI*2);ctx.fillStyle='#b6a384';ctx.fill();}
+    ctx.strokeStyle='#e9e1d0';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(109,y0+hh);ctx.lineTo(151,y0+hh);ctx.stroke();
+    ctx.fillStyle='#a28d6d';ctx.font='10px Arial';ctx.fillText('LỐI VÀO',130,307);
+    const [px,py]=pos(state.x,state.z);
+    ctx.save();ctx.translate(px,py);ctx.rotate(state.yaw);ctx.fillStyle='#b3935840';ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,24,-Math.PI/2-.40,-Math.PI/2+.40);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.fillStyle='#866a37';ctx.strokeStyle='#fff9ec';ctx.lineWidth=2;ctx.beginPath();ctx.arc(px,py,4.7,0,Math.PI*2);ctx.fill();ctx.stroke();
+  }
+  function tick(now){
+    const dt=Math.min((now-last)/1000,.055);last=now;move(dt);
+    if(!document.hidden&&!state.capturing){if(state.dirty)render();if(now-lastMap>120){drawMap();lastMap=now;
+      if(state.started){const front=state.z<.9&&state.z>-1.3&&Math.abs(state.x)<3.2;$('nearLabel').hidden=!front;
+        if(state.moving)$('locationLabel').textContent=state.z<-6.65?'Lối phía sau tượng':Math.abs(state.x)>3.3&&state.z<-.8?'Lối bên tượng Phật':state.z<1.2?'Phía trước tượng Phật':'Trong đại điện';}
+    }}requestAnimationFrame(tick);
+  }
+  async function capture(){
+    if(!renderer||state.capturing||state.lost)return;
+    const gl=renderer.gl,max=gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);if(max<3840){toast('GPU này không hỗ trợ bộ đệm ảnh rộng 3840 px.');return;}
+    release();keys.clear();resetTouch();state.capturing=true;$('photoBtn').disabled=true;toast('Đang tạo ảnh 4K…',20000);
+    // Allow UI update before the one-off high-resolution render.
+    await new Promise(resolve=>setTimeout(resolve,50));
+    const old=[canvas.width,canvas.height];
+    try{
+      renderer.resize(3840,2160);renderer.render([state.x,state.y,state.z],view(),settings.fov);
+      const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Không tạo được ảnh PNG.')),'image/png'));
+      const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='dai-dien-4k-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.png';a.style.display='none';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+      toast('Đã tạo ảnh PNG 3840 × 2160, không kèm giao diện.');
+    }catch(err){toast('Chụp ảnh thất bại: '+err.message);console.error(err);}
+    finally{renderer.resize(...old);state.capturing=false;$('photoBtn').disabled=false;resolution();render();}
+  }
+  async function bell(){
+    const now=performance.now();if(now-lastBell<1500){toast('Tiếng chuông vẫn đang ngân.');return;}lastBell=now;
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error('Trình duyệt không hỗ trợ âm thanh.');
+      if(!audioCtx)audioCtx=new AC();await audioCtx.resume();
+      const t=audioCtx.currentTime;const gain=audioCtx.createGain();gain.gain.value=.15;gain.connect(audioCtx.destination);
+      const partials=[[220,.26,8],[440.2,.16,6.5],[577.5,.1,5],[873,.06,3.5],[1195,.035,2.5]];let pending=partials.length;
+      for(const [freq,level,duration]of partials){const osc=audioCtx.createOscillator(),env=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;env.gain.setValueAtTime(.0001,t);env.gain.exponentialRampToValueAtTime(level,t+.018);env.gain.exponentialRampToValueAtTime(.0001,t+duration);osc.connect(env);env.connect(gain);osc.start(t);osc.stop(t+duration+.1);osc.onended=()=>{osc.disconnect();env.disconnect();if(--pending===0)gain.disconnect();};}
+      toast('Một tiếng chuông. Một khoảng lặng.',2500);
+    }catch(err){toast(err.message);}
+  }
+  function resetTouch(){joy=null;joyVec=[0,0];$('stick').style.transform='translate(0,0)';drag=null;}
+  function bind(){
+    $('startBtn').addEventListener('click',()=>start(true));$('walkBtn').addEventListener('click',()=>{start(true);setActive('walkBtn');});
+    $('contemplateBtn').addEventListener('click',()=>setPose('contemplate'));$('rearBtn').addEventListener('click',()=>setPose('rear'));$('homeBtn').addEventListener('click',()=>setPose('entrance'));$('photoBtn').addEventListener('click',capture);
+    $('settingsBtn').addEventListener('click',()=>togglePanel('settings'));$('infoBtn').addEventListener('click',()=>togglePanel('info'));$('bellBtn').addEventListener('click',bell);
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>{const id=state.panel;closePanels();if(id)$(id+'Btn').focus();}));
+    $('unhideBtn').addEventListener('click',()=>document.body.classList.remove('ui-hidden'));
+    $('fullscreenBtn').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else toast('Trình duyệt này chưa hỗ trợ toàn màn hình.');}catch(_){toast('Không thể mở toàn màn hình trong trình xem hiện tại.');}});
+    $('mapHead').addEventListener('click',()=>{const c=$('mapWrap').classList.toggle('collapsed');$('mapToggle').setAttribute('aria-expanded',String(!c));$('mapToggle').setAttribute('aria-label',c?'Mở bản đồ':'Thu gọn bản đồ');drawMap();});
+    document.querySelectorAll('[data-quality]').forEach(b=>b.addEventListener('click',()=>{settings.quality=b.dataset.quality;syncSettings();resolution();save();}));
+    $('lightSelect').addEventListener('change',e=>{settings.light=e.target.value;syncSettings();save();});
+    $('fov').addEventListener('input',e=>{settings.fov=Number(e.target.value);syncSettings();save();});
+    $('sensitivity').addEventListener('input',e=>{settings.sensitivity=Number(e.target.value);syncSettings();save();});
+    $('shadowToggle').addEventListener('change',e=>{settings.shadows=e.target.checked;syncSettings();save();});
+    $('touchToggle').addEventListener('change',e=>{settings.touch=e.target.checked;release();resetTouch();syncSettings();save();});
+    document.addEventListener('pointerlockchange',()=>{document.body.classList.toggle('locked',document.pointerLockElement===canvas);keys.clear();if(document.pointerLockElement!==canvas&&state.started){$('hint').hidden=false;clearTimeout(hideHintTimer);hideHintTimer=setTimeout(()=>$('hint').hidden=true,10000);}});
+    document.addEventListener('pointerlockerror',()=>toast('Dùng cách kéo chuột để nhìn quanh.'));
+    document.addEventListener('mousemove',e=>{if(document.pointerLockElement===canvas&&!state.panel&&!state.capturing)aim(e.movementX,e.movementY);});
+    canvas.addEventListener('pointerdown',e=>{
+      if(state.panel){closePanels();return;}if(!renderer||state.capturing)return;
+      if(!state.started)start(false);
+      if(document.pointerLockElement===canvas)return;
+      if(e.pointerType==='mouse'&&e.button!==0)return;
+      drag={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);canvas.focus({preventScroll:true});e.preventDefault();
+    });
+    canvas.addEventListener('pointermove',e=>{if(drag&&drag.id===e.pointerId&&!state.panel){const mult=e.pointerType==='touch'?1.5:1;aim((e.clientX-drag.x)*mult,(e.clientY-drag.y)*mult);drag.x=e.clientX;drag.y=e.clientY;}});
+    const endDrag=e=>{if(drag&&drag.id===e.pointerId)drag=null;};canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);
+    canvas.addEventListener('contextmenu',e=>e.preventDefault());
+    const pad=$('touchpad');
+    const updateJoy=e=>{const r=pad.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),max=r.width*.31,d=Math.max(max,Math.hypot(dx,dy));joyVec=[dx/d,dy/d];$('stick').style.transform=`translate(${joyVec[0]*max}px,${joyVec[1]*max}px)`;};
+    pad.addEventListener('pointerdown',e=>{if(joy!==null)return;joy=e.pointerId;pad.setPointerCapture(e.pointerId);updateJoy(e);e.preventDefault();});
+    pad.addEventListener('pointermove',e=>{if(joy===e.pointerId){updateJoy(e);e.preventDefault();}});
+    const endJoy=e=>{if(joy===e.pointerId){joy=null;joyVec=[0,0];$('stick').style.transform='translate(0,0)';}};['pointerup','pointercancel','lostpointercapture'].forEach(ev=>pad.addEventListener(ev,endJoy));
+    document.addEventListener('keydown',e=>{
+      if(e.code==='Escape'){closePanels();keys.clear();return;}
+      if(state.panel){
+        if(e.code==='Tab'){const els=[...$(state.panel+'Panel').querySelectorAll('button,input,select')].filter(x=>!x.disabled);const first=els[0],lastEl=els.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();lastEl.focus();}else if(!e.shiftKey&&document.activeElement===lastEl){e.preventDefault();first.focus();}}return;
+      }
+      if(e.target.matches('input,select,textarea'))return;
+      if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){
+        e.preventDefault();if(!state.started)start(false);keys.add(e.code);return;
+      }
+      if(e.repeat)return;
+      if(e.code==='KeyR'){e.preventDefault();setPose('entrance');}else if(e.code==='KeyP'){e.preventDefault();capture();}
+      else if(e.code==='KeyH'){e.preventDefault();release();document.body.classList.toggle('ui-hidden');}
+      else if(e.code==='KeyB'){e.preventDefault();bell();}
+    });
+    document.addEventListener('keyup',e=>keys.delete(e.code));
+    window.addEventListener('blur',()=>{keys.clear();resetTouch();});
+    document.addEventListener('visibilitychange',()=>{keys.clear();resetTouch();last=performance.now();if(!document.hidden)state.dirty=true;else if(audioCtx)audioCtx.suspend();});
+    window.addEventListener('resize',resolution);document.addEventListener('fullscreenchange',resolution);
+    canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();release();keys.clear();fail(new Error('Kết nối GPU bị gián đoạn. Hãy tải lại trang; chọn mức “Nhẹ” khi cần.'));});
+    canvas.addEventListener('webglcontextrestored',()=>{$('splashMessage').textContent='GPU đã sẵn sàng. Bấm “Tải lại trang” để dựng lại không gian.';});
+  }
+  async function boot(){
+    try{
+      // Two paint opportunities let the loading state appear before geometry generation.
+      await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+      hall=buildHall();renderer=new G.Renderer(canvas,hall.batches);syncSettings();resolution();bind();
+      if(initiallyTouch){$('mapWrap').classList.add('collapsed');$('mapToggle').setAttribute('aria-expanded','false');$('mapToggle').setAttribute('aria-label','Mở bản đồ');}
+      render();drawMap();$('splash').hidden=true;
+      window.DaiDien=Object.freeze({version:'1.0.0',getState:()=>({x:state.x,y:state.y,z:state.z,yaw:state.yaw,pitch:state.pitch,started:state.started}),getDiagnostics:()=>({triangles:renderer.triangles,drawCalls:hall.batches.length,buffer:[canvas.width,canvas.height],webglError:renderer.gl.getError(),quality:settings.quality,networkDependencies:0}),isWalkable:(x,z)=>walkable(x,z),reset:()=>setPose('entrance',false),goTo:(id)=>{if(Object.hasOwn(pose,id))setPose(id,false);}});
+      requestAnimationFrame(tick);
+    }catch(err){fail(err);}
+  }
+  boot();
+})();
+</script>
+</body>
+</html>

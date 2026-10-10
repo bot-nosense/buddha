@@ -1,0 +1,214 @@
+{
+  "environment": "Chromium 144 / Linux / ANGLE Mesa llvmpipe / Xvfb; HTML injected inline (navigation blocked by environment policy)",
+  "tests": [
+    {
+      "name": "Desktop boot and WebGL",
+      "passed": true,
+      "detail": {
+        "triangles": 183396,
+        "drawCalls": 2,
+        "buffer": [
+          1440,
+          900
+        ],
+        "webglError": 0,
+        "quality": "balanced",
+        "networkDependencies": 0
+      }
+    },
+    {
+      "name": "WASD forward movement",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": 0,
+          "y": 1.65,
+          "z": 6.55,
+          "yaw": 0,
+          "pitch": 0.1639360055822073,
+          "started": true
+        },
+        "after": {
+          "x": 0,
+          "y": 1.65,
+          "z": 6.0298000000000025,
+          "yaw": 0,
+          "pitch": 0.1639360055822073,
+          "started": true
+        }
+      }
+    },
+    {
+      "name": "Mouse-drag look",
+      "passed": true,
+      "detail": {
+        "yaw": 0.4620000000000001,
+        "pitch": 0.22993600558220736
+      }
+    },
+    {
+      "name": "Contemplation bookmark",
+      "passed": true
+    },
+    {
+      "name": "Altar collision prevents walking onto plinth",
+      "passed": true,
+      "detail": {
+        "x": 0,
+        "y": 1.65,
+        "z": -0.7699499999999991,
+        "yaw": 0,
+        "pitch": 0.3436906069886047,
+        "started": true
+      }
+    },
+    {
+      "name": "Rear aisle bookmark",
+      "passed": true,
+      "detail": {
+        "x": 0,
+        "y": 1.65,
+        "z": -7.12,
+        "yaw": 3.141592653589793,
+        "pitch": 0.4404909860317244,
+        "started": true
+      }
+    },
+    {
+      "name": "Collision samples / both sides / rear",
+      "passed": true,
+      "detail": {
+        "outside": false,
+        "plinth": false,
+        "column": false,
+        "left": true,
+        "right": true,
+        "back": true
+      }
+    },
+    {
+      "name": "Low quality render cap",
+      "passed": true,
+      "detail": {
+        "triangles": 183396,
+        "drawCalls": 2,
+        "buffer": [
+          1214,
+          758
+        ],
+        "webglError": 0,
+        "quality": "low",
+        "networkDependencies": 0
+      }
+    },
+    {
+      "name": "Lighting / FOV settings",
+      "passed": true
+    },
+    {
+      "name": "Shadow toggle",
+      "passed": true
+    },
+    {
+      "name": "4K interactive resolution option",
+      "passed": true,
+      "detail": {
+        "triangles": 183396,
+        "drawCalls": 2,
+        "buffer": [
+          3642,
+          2276
+        ],
+        "webglError": 0,
+        "quality": "ultra",
+        "networkDependencies": 0
+      }
+    },
+    {
+      "name": "4K PNG export",
+      "passed": true,
+      "detail": {
+        "dimensions": [
+          3840,
+          2160
+        ],
+        "bytes": 5989176
+      }
+    },
+    {
+      "name": "Resolution restored after capture",
+      "passed": true
+    },
+    {
+      "name": "Hide UI shortcut",
+      "passed": true
+    },
+    {
+      "name": "Show UI button",
+      "passed": true
+    },
+    {
+      "name": "Info panel opens",
+      "passed": true
+    },
+    {
+      "name": "Escape closes panel",
+      "passed": true
+    },
+    {
+      "name": "Bell gesture handler",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "No external requests",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "Mobile boot / touch controls",
+      "passed": true,
+      "detail": {
+        "triangles": 183396,
+        "drawCalls": 2,
+        "buffer": [
+          390,
+          844
+        ],
+        "webglError": 0,
+        "quality": "low",
+        "networkDependencies": 0
+      }
+    },
+    {
+      "name": "Mobile layout has no horizontal overflow",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "Touch joystick movement handler",
+      "passed": true,
+      "detail": {
+        "before": 6.55,
+        "after": 5.6501500000000044
+      }
+    },
+    {
+      "name": "Touch look handler",
+      "passed": true
+    },
+    {
+      "name": "Mobile landscape no overflow",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "external_requests": []
+}
