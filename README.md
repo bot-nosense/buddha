@@ -1,114 +1,114 @@
-# Đại điện · V1
+# Đại điện · V1.1 — Một khoảng lặng
 
-Một bản tham quan 3D góc nhìn thứ nhất, dựa trên mặt bằng của Vũ: tượng Phật ở phía trong, khoảng sàn trống phía trước, có lối đi hai bên và phía sau.
+Một trải nghiệm chiêm bái Phật giáo trên màn hình: **bước vào → thắp hương tượng trưng → ngắm cảnh, dừng chân → rời đi**. Không chiến đấu, kỹ năng, NPC, nhiệm vụ, điểm số hoặc tài khoản.
 
-**Đây là prototype bố cục và trải nghiệm, không phải bản đồ họa chân thực hoàn thiện.** Tượng là mô hình hình học sơ bộ do mã nguồn tạo ra, không phải một mô hình điêu khắc hoặc bản quét bảo tàng. Những chi tiết khuôn mặt, bàn tay, y phục và đài sen cần được thay bằng asset được kiểm duyệt trong giai đoạn tiếp theo.
+Phát triển tiếp từ bản V1 trong repo này. Giữ đại điện **12,5 × 16 m = 200 m²**, trần 9 m, tầm mắt 1,65 m và các lối đi bên/sau bệ. Không thay renderer bằng framework khác trong vòng cập nhật này.
 
-## Mở V1
+**Đây vẫn là prototype trải nghiệm, chưa phải đồ họa AAA.** Tượng Phật Thích Ca là tạo hình hình học sơ bộ; chưa có asset điêu khắc được chuyên gia kiểm duyệt, texture scan hay ánh sáng bake. Âm thanh là bản tổng hợp thử nghiệm, không phải bản ghi tại chùa hoặc tụng kinh.
 
-Mở `index.html` bằng trình duyệt có WebGL 2. Nội dung nằm hoàn toàn trong file HTML; không cần npm, Node.js, backend, tài khoản hay kết nối Internet để tải tài nguyên.
+## Chạy ngay
 
-Bấm **Bắt đầu tham quan**. Trên máy tính, sử dụng WASD và chuột. Nếu trình duyệt không cho khóa chuột, giữ chuột trái và kéo để nhìn quanh. Trên điện thoại, dùng cần điều khiển bên trái và vuốt vùng cảnh bên phải.
+Giữ `index.html` **cùng thư mục `src/`**, mở bằng trình duyệt có WebGL 2. Không cần npm, Node, backend hay Blender để sử dụng.
 
-Nếu trình duyệt hoặc chính sách máy tính chặn chạy file cục bộ, có thể phục vụ thư mục bằng một máy chủ HTTP tĩnh. Ví dụ, với Python 3 đã được cài:
+Nếu máy không cho mở file cục bộ, phục vụ cả repo bằng máy chủ tĩnh:
 
 ```sh
-cd dai-dien-v1
+cd buddha
 python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
-Trên Windows, lệnh tương đương thường là:
+Windows có thể dùng `py -m http.server 8080 --bind 127.0.0.1`. Mở `http://localhost:8080`, rồi bấm **Bước vào đại điện**. Tai nghe giúp nghe rõ vị trí chuông và âm nền. Có thể bỏ chọn âm thanh trước khi vào.
 
-```powershell
-py -m http.server 8080 --bind 127.0.0.1
-```
-
-Sau đó mở `http://localhost:8080`. Máy chủ này chỉ phục vụ các file tĩnh, không phải backend của game.
-
-## Điều khiển
-
-| Thao tác | Cách dùng |
-|---|---|
-| Đi lại | WASD hoặc các phím mũi tên |
-| Nhìn quanh | Chuột khi được khóa, hoặc giữ chuột trái và kéo |
-| Thả chuột / đóng bảng | Esc |
-| Trở lại cửa | R hoặc nút Cửa vào |
-| Tới trước tượng | Nút Chiêm bái |
-| Tới lối phía sau | Nút Vòng tượng |
-| Chụp ảnh 4K | P hoặc nút Chụp ảnh |
-| Ẩn / hiện giao diện | H; có nút hiện lại khi đã ẩn |
-| Một tiếng chuông | B hoặc nút chuông |
-| Điện thoại | Cần điều khiển trái để đi; vuốt cảnh để nhìn |
-
-Nút chuyển vị trí dùng đổi góc nhìn kèm chuyển mờ ngắn, không phải tự động đi bộ theo tuyến. Sau khi tới vị trí mới, vẫn có thể tự do di chuyển.
-
-## Không gian
-
-- Lòng đại điện: **12,5 × 16 m = 200 m²**; trần cao **9 m**.
-- Camera ở cao độ **1,65 m**, không nhảy, không rung đầu.
-- Vùng bệ: **6 × 5 m**; đặt lùi về phía sau, không tạo một phòng kín quanh tượng.
-- Khoảng cách danh nghĩa hai bên bệ: **3,25 m** mỗi bên, trước khi trừ chân cột và đồ phụ.
-- Lối sau bệ: **1,6 m** tới tường sau; mặc định được phép đi vòng.
-- Cụm tượng và đài sen lên tới khoảng **5 m** so với mặt sàn.
-- Sáu cột, trần dầm gỗ, cửa lấy sáng, hai đèn, bàn lễ nhỏ, hai ghế và vài đệm ngồi.
-- Vật liệu mang sắc đá sáng, gỗ ấm, kim loại vàng. Không dùng tia hào quang hoặc sương giả tưởng.
-
-## Hiển thị và ảnh 4K
-
-Có bốn mức hiển thị: **Nhẹ, Cân bằng, Sắc nét, 4K**. Giao diện cài đặt hiện đúng kích thước bộ đệm đang render.
-
-Mức 4K giữ tỷ lệ cửa sổ, cạnh dài không vượt 3840 px và số điểm ảnh xấp xỉ tối đa 8,29 triệu. Vì vậy, cửa sổ 16:10 hoặc màn hình dọc không nhất thiết có bộ đệm 3840 × 2160. Đây không phải lỗi.
-
-Nút **Chụp ảnh** render riêng một khung hình **3840 × 2160, tỷ lệ 16:9**, không có giao diện, rồi trả độ phân giải tương tác về mức trước đó. Góc cắt ngang có thể khác cửa sổ nếu tỷ lệ cửa sổ không phải 16:9. Không dùng nội suy phóng lớn ảnh chụp màn hình.
-
-**4K chỉ mô tả số điểm ảnh.** V1 chưa có texture chụp thực tế 4K, lightmap bake hay mô hình tượng điêu khắc hoàn thiện. Vật liệu hiện là shader procedural. Không cam kết 60 FPS hoặc native 4K trên mọi thiết bị.
-
-## Kỹ thuật
-
-HTML, CSS và JavaScript thuần; renderer WebGL 2 tự chứa. Không đóng gói Three.js hoặc thư viện bên ngoài.
-
-- Hình học tĩnh gộp thành **2 batch hiển thị**, khoảng **183.396 tam giác** trong build này.
-- Ánh sáng trực tiếp và bóng đổ shadow map tĩnh 2048 × 2048; phản xạ và ánh sáng gián tiếp là xấp xỉ phục vụ prototype, không phải GI vật lý hoàn chỉnh.
-- Camera di chuyển trên mặt phẳng; kiểm tra va chạm với biên phòng, chân cột, bệ, bậc phía trước, ghế và đèn.
-- Chỉ render lại khi góc nhìn, vị trí hoặc cài đặt thay đổi. Không render lại cảnh tĩnh liên tục chỉ để tạo chuyển động giả.
-- Tiếng chuông tổng hợp bằng Web Audio, chỉ phát sau thao tác của người dùng. Không sử dụng bản ghi bên ngoài.
-- Cài đặt lưu cục bộ trong localStorage khi trình duyệt cho phép. Không thu thập thông tin và không gửi dữ liệu lên mạng.
-- Có thông báo lỗi khi không khởi tạo được WebGL hoặc mất kết nối GPU.
-
-API tham khảo: WebGL 2 — https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext ; Pointer Lock — https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API .
-
-## Sửa mã nguồn
-
-```text
-dai-dien-v1/
-  index.html             Bản đã build, tự chứa, dùng ngay
-  README.md              Hướng dẫn này
-  DESIGN-NOTES.md        Giới hạn V1 và bàn giao cho vòng tiếp theo
-  TEST-REPORT.json       Kết quả kiểm tra tự động
-  preview.jpg            Ảnh chụp trực tiếp từ bản chạy
-  build.py               Gộp source thành index.html; chỉ cần Python 3
-  src/
-    template.html        Cấu trúc HTML và biểu tượng SVG
-    style.css            Giao diện và bố cục responsive
-    engine.js            Toán 3D, hình học, shader, WebGL renderer
-    scene.js             Đại điện và tạo hình tượng
-    app.js               Di chuyển, va chạm, giao diện, ảnh 4K, âm thanh
-```
-
-Sau khi sửa file trong `src`, chạy:
+**Thay đổi cấu trúc từ V1:** `index.html` hiện là entrypoint dễ sửa, nạp CSS/JS cục bộ trong `src/`, không còn là file đã gộp. Template cũ được bỏ để tránh hai nguồn HTML lệch nhau. Muốn một file duy nhất để chia sẻ offline:
 
 ```sh
 python3 build.py
 ```
 
-Trên Windows có thể dùng `py build.py`. Không cần bước build nếu chỉ sử dụng file `index.html` đã có sẵn.
+Lấy `dist/index.html` vừa tạo. Build chỉ dùng Python standard library; không tải tài nguyên, không ghi đè entrypoint và không sửa file gốc. Không cần build để chạy repo.
 
-## Phạm vi đã kiểm tra
+## Có gì mới trong V1.1?
 
-25 kiểm tra tự động đã qua trên Chromium 144/Linux với GPU phần mềm ANGLE/Mesa, gồm khởi tạo WebGL, WASD, kéo chuột, các vị trí nhanh, kiểm tra va chạm, mức hiển thị, cài đặt góc nhìn, nút ẩn giao diện, thông tin, handler chuông và ảnh PNG 3840 × 2160. Không có lỗi JavaScript được ghi nhận và không có yêu cầu HTTP/HTTPS ra ngoài trong phiên kiểm tra.
+| Thành phần | Đã triển khai |
+|---|---|
+| Di chuyển | Đi bộ mặc định 0,95 m/s; điều chỉnh 0,6–1,4 m/s; tăng/giảm tốc nhẹ; không chạy, nhảy hoặc rung đầu |
+| Nhịp hình | Mục tiêu 30 FPS mặc định, tùy chọn 60 FPS; không khóa 24 FPS cho tương tác |
+| Thắp hương | Đến gần bàn hương, nhìn về tượng, bấm E; đầu hương sáng và tối đa 48 hạt khói; một lượt mỗi lần vào, không có phần thưởng |
+| Âm thanh | Gió nhẹ hai bên đại điện, chuông có nguồn phát tại giá chuông, bước chân theo quãng đường, vang phòng tổng hợp |
+| Dừng chân | Giữ vị trí, ẩn giao diện; vẫn kéo để nhìn quanh; Esc/H hoặc nút trên cùng để tiếp tục |
+| Rời đi | Nút Rời đi; hoặc quay về cửa, nhìn ra ngoài và bấm E; xóa hương và đóng graph âm thanh của lần vào |
+| Khả năng tiếp cận | Âm lượng/âm nền riêng, tắt bước chân/khói; tuân theo reduced motion; bảng cài đặt quản lý focus và khóa nền |
+| Kiểm thử | Bộ test logic Node, build Python và smoke test trình duyệt có thể chạy lại |
 
-Điện thoại được **mô phỏng** ở 390 × 844 và 844 × 390; đường xử lý pointer cho joystick và nhìn quanh đã được kiểm tra. Đây **không phải** phép thử trên iPhone/Android thật, Mac mini M2, Safari hay phép đo hiệu năng phần cứng mục tiêu. Âm thanh được kiểm tra ở mức xử lý thao tác, không phải đánh giá chất lượng nghe.
+Không tự chạy nhạc, không tự thỉnh chuông, không thêm tiếng cháy hương phóng đại. Không tuyên bố tương tác này mang lại công đức hoặc thay thế nghi lễ thực tế.
 
-Môi trường kiểm tra chặn điều hướng file/HTTP nên HTML được nạp trực tiếp vào tài liệu trình duyệt để chạy kiểm thử. Chưa xác nhận thao tác mở file bằng nhấp đúp trong môi trường đó. Source không dùng fetch, import module hay tài nguyên ngoài; bản HTML được thiết kế để mở trực tiếp. Khóa chuột/toàn màn hình phụ thuộc quyền của trình duyệt; có cách kéo chuột thay thế.
+## Điều khiển
 
-Xem `TEST-REPORT.json` để biết từng kiểm tra và các giới hạn của môi trường.
+| Thao tác | Cách dùng |
+|---|---|
+| Đi bộ | WASD hoặc các phím mũi tên |
+| Nhìn quanh | Kéo chuột trái; nút Đi bộ để yêu cầu khóa chuột |
+| Thắp hương / rời qua cửa | E khi gợi ý xuất hiện; cũng có nút chạm |
+| Thỉnh một tiếng chuông | B hoặc nút chuông; âm thanh phải đang bật |
+| Dừng chân / tiếp tục | H; Esc hoặc nút Tiếp tục đi lại để thoát |
+| Về cửa / chụp ảnh | R / P |
+| Vị trí nhanh | Chiêm bái, Vòng tượng, Về cửa; chuyển mờ ngắn, không phải tự đi bộ |
+| Điện thoại | Cần điều khiển trái để đi; vuốt cảnh để nhìn; thanh công cụ có thể cuộn ngang |
+
+Bệ thờ, cột, bàn ghế, đèn và giá chuông có va chạm. Không cho bước lên bệ. Dừng chân không khóa hướng nhìn nhưng khóa di chuyển, tránh vô tình rời vị trí khi ẩn giao diện.
+
+## Hình ảnh, FPS và 4K
+
+Mức **Nhẹ / Cân bằng / Sắc nét / 4K** thay đổi kích thước render buffer; cài đặt hiển thị số pixel thực tế. Mức 4K tương tác giữ tỷ lệ cửa sổ và giới hạn cạnh dài 3840 px; không phải mọi màn hình đều là 3840 × 2160.
+
+Nút **Ảnh 4K** render riêng một PNG **3840 × 2160, 16:9**, không kèm giao diện, rồi phục hồi kích thước tương tác. Không chỉ phóng lớn ảnh chụp màn hình. Crop có thể khác khi cửa sổ không phải 16:9.
+
+**30/60 FPS là mục tiêu/giới hạn, không phải cam kết hiệu năng.** Chuyển sang 30 không tự làm model, vật liệu hoặc shader đẹp hơn. Chuyển động dùng delta-time và tích phân gia tốc; cắt các khoảng stall dài để tránh nhảy vị trí. Khi cảnh tĩnh không có khói, không render liên tục. Khi có khói, cảnh động chịu giới hạn FPS đã chọn.
+
+Không có motion blur, DOF hoặc camera shake áp đặt cho người điều khiển. FOV trong cài đặt là **góc nhìn dọc**, không phải góc ngang.
+
+## Kỹ thuật và quyền riêng tư
+
+HTML/CSS/JavaScript thuần, WebGL 2 và Web Audio. Không CDN, runtime dependency bên ngoài, fetch, analytics, backend, microphone, tài khoản hoặc dữ liệu người chơi gửi lên mạng. Máy chủ tĩnh do bạn chọn vẫn có thể có access log riêng.
+
+Hai batch hình học tĩnh, **186.772 tam giác** sau khi thêm giá chuông; hiệu ứng hương thêm một draw call khi đang cháy. Bóng đổ tĩnh 2048² và shader procedural được giữ từ V1; không gọi xấp xỉ ánh sáng hiện tại là baked GI/Lumen.
+
+Khói có tối đa 48 hạt, không sinh thêm không giới hạn. Hiệu ứng kết thúc sau 300 giây thời gian mô phỏng đang hoạt động; ẩn tab sẽ tạm dừng. Trạng thái thắp hương không lưu qua lần vào. Chỉ cài đặt được lưu cục bộ khi localStorage khả dụng.
+
+Web Audio chỉ khởi tạo sau thao tác vào đại điện/bật âm thanh; ẩn tab thì tạm dừng. Rời đại điện sẽ dừng voice và đóng audio context, không để tiếng chuông cũ sang lần vào mới. Chuông/âm nền/impulse response đều do mã nguồn tạo, chưa được kiểm định về âm học thực tế.
+
+## Cấu trúc
+
+```text
+index.html              Entry HTML; mở cùng src/ hoặc phục vụ bằng HTTP
+build.py                Tạo dist/index.html tự chứa, tùy chọn
+src/
+  engine.js             Renderer và hình học từ V1
+  scene.js              Đại điện và tượng sơ bộ từ V1
+  core.js               Cài đặt, va chạm, đi bộ, frame gate (có unit test)
+  audio.js              Âm thanh không gian và quản lý vòng đời
+  ritual.js             Giá chuông, đầu hương và khói có giới hạn
+  app.js                Phiên tham quan, UI, input và export 4K
+  style.css             UI responsive
+ tests/                 Logic, build và browser smoke tests
+ docs/                  Thiết kế, phạm vi và bằng chứng kiểm thử
+```
+
+## Kiểm thử
+
+```sh
+node --test tests/core.test.cjs
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+```
+
+Node chỉ cần để kiểm thử, không phải để chạy trải nghiệm. Smoke test tùy chọn cần Python Playwright và Chromium đã cài:
+
+```sh
+python3 tests/browser_smoke.py --chromium /path/to/chromium
+```
+
+Lần kiểm tra V1.1 trong môi trường phát triển: **18 test logic + 7 test build + 29 smoke checks = 54 kiểm tra qua**. Chromium 144/Linux, GPU phần mềm ANGLE/Mesa; bao gồm mở WebGL, điều khiển, thắp hương, audio graph, giảm chuyển động, xuất PNG 4K, mô phỏng cảm ứng và khôi phục sau mất GPU.
+
+**Giới hạn:** trình duyệt quản lý chặn điều hướng file, nên smoke test nạp bản single-file qua `set_content` (`--inline --headed --software-gl`). Chưa xác nhận đường nạp file/HTTP, native localStorage persistence, hosting, Safari, Mac mini M2 hoặc thiết bị di động thật. Không dùng số FPS từ GPU phần mềm để quảng bá hiệu năng. Âm thanh được kiểm tra ở mức graph/voice, chưa đánh giá chất lượng nghe.
+
+Bằng chứng: `docs/TEST-REPORT-V1.1.json`. `docs/TEST-REPORT.json` là báo cáo V1 lịch sử, không được coi là lần chạy V1.1. Hướng phát triển hình ảnh tiếp theo: `docs/EXPERIENCE-V1.1.md`.

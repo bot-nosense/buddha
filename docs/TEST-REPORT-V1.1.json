@@ -1,0 +1,70 @@
+{
+  "version": "1.1.0",
+  "baseCommit": "9087d671f6ce1ad41d981cec05d6c6588ff87ce7",
+  "date": "2026-10-10",
+  "logicTests": {
+    "passed": 18,
+    "failed": 0,
+    "command": "node --test tests/core.test.cjs"
+  },
+  "buildTests": {
+    "passed": 7,
+    "failed": 0,
+    "command": "python3 -m unittest discover -s tests -p 'test_*.py' -v"
+  },
+  "browser": {
+    "mode": "inline single-file build",
+    "checks": [
+      {"name": "Boot WebGL2 / 30 FPS target", "passed": true},
+      {"name": "No autoplay before entry", "passed": true},
+      {"name": "Audio opt-out works", "passed": true},
+      {"name": "WASD moves camera", "passed": true},
+      {"name": "No stuck input after release", "passed": true},
+      {"name": "Audio can be enabled after entry", "passed": true},
+      {"name": "60 FPS selectable", "passed": true},
+      {"name": "Quality changes buffer", "passed": true},
+      {"name": "Modal isolates background", "passed": true},
+      {"name": "Escape closes modal", "passed": true},
+      {"name": "Offering creates bounded smoke", "passed": true},
+      {"name": "Offering cannot be spammed", "passed": true},
+      {"name": "Hint does not overlap ritual prompt", "passed": true},
+      {"name": "Quiet mode holds position", "passed": true},
+      {"name": "Quiet mode can be exited", "passed": true},
+      {"name": "Reduced motion disables smoke", "passed": true},
+      {"name": "Static view avoids redraws", "passed": true},
+      {"name": "Bell creates audio voices", "passed": true},
+      {"name": "4K PNG export", "passed": true},
+      {"name": "Photo restores interactive buffer", "passed": true},
+      {"name": "Exit resets incense and audio", "passed": true},
+      {"name": "Re-entry permits fresh offering", "passed": true},
+      {"name": "Mobile touch controls and low preset", "passed": true},
+      {"name": "Touch joystick moves camera", "passed": true},
+      {"name": "Touch dragging changes view", "passed": true},
+      {"name": "Landscape UI fits viewport", "passed": true},
+      {"name": "GPU loss presents reload recovery", "passed": true},
+      {"name": "No uncaught JavaScript errors", "passed": true},
+      {"name": "No external runtime requests", "passed": true}
+    ],
+    "errors": [],
+    "externalRequests": [],
+    "browser": "144.0.7559.96",
+    "gpu": "ANGLE (Mesa, llvmpipe (LLVM 19.1.7 256 bits), OpenGL 4.5)",
+    "passed": 29,
+    "failed": 0,
+    "limitations": [
+      "Not a real Mac/Safari/iPhone/Android test or hardware FPS benchmark.",
+      "Audio graph tested, not subjective listening quality.",
+      "File/HTTP loading, native localStorage persistence and hosting not verified in inline mode."
+    ]
+  },
+  "totalPassed": 54,
+  "totalFailed": 0,
+  "browserCommand": "DISPLAY=:99 python3 tests/browser_smoke.py --inline --headed --software-gl --output qa-artifacts",
+  "notes": [
+    "Managed Chromium blocked file navigation (ERR_BLOCKED_BY_ADMINISTRATOR). No navigation policies were changed; rendered the inline single-file build.",
+    "Desktop viewport 1280x800; mobile emulation 390x844 and 844x390.",
+    "4K PNG dimensions validated from IHDR; interactive buffer restored after capture.",
+    "No native Safari/macOS/mobile-device or target-GPU performance validation.",
+    "Full-screen permission, native localStorage persistence and hosting are not covered."
+  ]
+}
